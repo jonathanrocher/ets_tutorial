@@ -37,6 +37,7 @@ edm install pandas matplotlib traits traitsui scikits.image
 ```
 
 ### Conda users
+[TODO]
 
 ### pip users
 Assuming a Python environment is created and activated on your machine, for 
@@ -52,7 +53,7 @@ During the tutorial, don't hesitate to ask for help:
 - there will be a number of developers in the room who can help unblock you.
 
 ### After the tutorial
-- This tutorial was recorded and can be watched [here]().
+- This tutorial was recorded and can be watched [here]() [TODO]
 - You can ask questions about any of the ETS packages on the ETS mailing list:
   https://groups.google.com/g/ets-users .
 - Each of the other packages has its own dedicated mailing list where questions 
@@ -62,6 +63,7 @@ During the tutorial, don't hesitate to ask for help:
 
 ## Contributing
 ### Code structure
+[TODO]
 
 ### Rules for contributing to the repository
 Contributing to this repository requires:
