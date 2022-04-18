@@ -7,11 +7,6 @@ from traits.api import ArrayOrNone, Float, HasTraits, Instance, Int
 from traitsui.api import Item, View
 
 
-FaceRectangle = namedtuple(
-    'FaceRectangle', ['anchor_point', 'width', 'height']
-)
-
-
 class FaceOverlay(AbstractOverlay):
     """ Draws a rectangle around a detected face.
     """
@@ -75,19 +70,15 @@ class FaceDetector(HasTraits):
         plot.img_plot("imagedata")
         for face in self.detect_faces():
             face_overlay = FaceOverlay(
-                anchor_point=face.anchor_point,
-                width=face.width,
-                height=face.height,
+                anchor_point=face["anchor_point"],
+                width=face["width"],
+                height=face["height"],
             )
             plot.overlays.append(face_overlay)
         return plot
 
     def detect_faces(self):
         """ Finds bounding rectangles for each human face in the image.
-
-        Returns
-        -------
-        List[FaceRectangle]
 
         """
         # Load the trained file from the module root.
@@ -102,10 +93,10 @@ class FaceDetector(HasTraits):
             max_size=(123, 123)
         )
         return [
-            FaceRectangle(
-                anchor_point=[face['c'], face['r'] + face['height']],
+            dict(
+                anchor_point=[face['c'], face['r']],
                 width=face['width'],
-                height=-face['height']
+                height=face['height']
             ) for face in faces
         ]
 
