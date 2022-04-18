@@ -24,6 +24,7 @@ scalable applications, and package them into an installer.
 - matplotlib
 - traits
 - traitsui
+- pyside2
 - scikits.image
 
 ### EDM users (recommended)
@@ -33,7 +34,7 @@ Python environment and install all dependencies in it:
 ```commandline
 edm env create ets_tutorial
 edm shell -e ets_tutorial
-edm install pandas matplotlib traits traitsui scikits.image
+edm install pandas matplotlib traits traitsui pyside2 scikits.image
 ```
 
 ### Conda users
@@ -43,7 +44,7 @@ edm install pandas matplotlib traits traitsui scikits.image
 Assuming a Python environment is created and activated on your machine, for 
 example from https://www.python.org/, 
 ```commandline
-pip install pandas matplotlib traits traitsui scikits-image
+pip install pandas matplotlib traits traitsui pyside2 scikits-image
 ```
 
 ## Getting help
