@@ -7,15 +7,21 @@ from traits.api import ArrayOrNone, Float, HasTraits, Instance, Int
 from traitsui.api import Item, View
 
 
-FaceRectangle = namedtuple('FaceRectangle', ['bottom_left', 'width', 'height'])
+FaceRectangle = namedtuple(
+    'FaceRectangle', ['anchor_point', 'width', 'height']
+)
 
 
 class FaceOverlay(AbstractOverlay):
     """ Draws a rectangle around a detected face.
     """
 
-    #: Bottom left corner of the rectangle in data space.
-    bottom_left = ArrayOrNone()
+    #: Anchor point of the rectangle in data space. This point is one of the
+    #: corners of the rectangle in data space, depending on the direction of
+    #: the axes and the sign of width and height. If width and height are
+    #: positive, and the origin is at the bottom left, this is the bottom left
+    #: corner of the rectangle.
+    anchor_point = ArrayOrNone()
 
     #: Width of the rectangle in data space.
     width = Float()
@@ -30,10 +36,10 @@ class FaceOverlay(AbstractOverlay):
     border_thickness = Int(8)
 
     def overlay(self, component, gc, view_bounds=None, mode="normal"):
-        bottom_left = component.map_screen(self.bottom_left)
+        bottom_left = component.map_screen(self.anchor_point)
         top_right = component.map_screen([
-            self.bottom_left[0] + self.width,
-            self.bottom_left[1] - self.height
+            self.anchor_point[0] + self.width,
+            self.anchor_point[1] + self.height
         ])
         with gc:
             gc.set_stroke_color(self.border_color_)
@@ -69,7 +75,7 @@ class FaceDetector(HasTraits):
         plot.img_plot("imagedata")
         for face in self.detect_faces():
             face_overlay = FaceOverlay(
-                bottom_left=face.bottom_left,
+                anchor_point=face.anchor_point,
                 width=face.width,
                 height=face.height,
             )
@@ -97,9 +103,9 @@ class FaceDetector(HasTraits):
         )
         return [
             FaceRectangle(
-                bottom_left=[face['c'], face['r'] + face['height']],
+                anchor_point=[face['c'], face['r'] + face['height']],
                 width=face['width'],
-                height=face['height']
+                height=-face['height']
             ) for face in faces
         ]
 
