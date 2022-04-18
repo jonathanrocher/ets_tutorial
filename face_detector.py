@@ -1,4 +1,3 @@
-from collections import namedtuple
 from chaco.api import AbstractOverlay, ArrayPlotData, Plot
 from enable.api import ColorTrait, ComponentEditor
 from skimage import data
