@@ -19,5 +19,5 @@ def collect_metadata(image_path):
 if __name__ == "__main__":
 
     image_path = sys.argv[1]
-    collect_metadata(image_path)
+    data = collect_metadata(image_path)
     print(data)
