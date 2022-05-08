@@ -21,8 +21,8 @@ class PycasaApplication(TasksApplication):
     def _task_factories_default(self):
         return [
             TaskFactory(
-                id='pycasa.hello_world_task',
-                name="Hellow World Editor",
+                id='pycasa.pycasa_task_factory',
+                name="Main Pycasa Task Factory",
                 factory=PycasaTask
             )
         ]
