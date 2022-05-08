@@ -20,11 +20,12 @@ scalable applications, and package them into an installer.
 ### Requirements
 
 - Python 3.6+
+- scikits.image
+- Pillow
 - Pandas
 - matplotlib
 - traits
 - traitsui
-- scikits.image
 
 ### EDM users (recommended)
 First, download and install EDM from https://www.enthought.com/edm/. Then, run 
@@ -33,7 +34,7 @@ Python environment and install all dependencies in it:
 ```commandline
 edm env create ets_tutorial
 edm shell -e ets_tutorial
-edm install pandas matplotlib traits traitsui scikits.image
+edm install pandas matplotlib traits traitsui scikits.image pillow pyqt5 ipython
 ```
 
 ### Conda users
@@ -43,14 +44,15 @@ edm install pandas matplotlib traits traitsui scikits.image
 Assuming a Python environment is created and activated on your machine, for 
 example from https://www.python.org/, 
 ```commandline
-pip install pandas matplotlib traits traitsui scikits-image
+pip install pandas matplotlib traits traitsui scikits-image pillow pyqt5 ipython
 ```
 
 ## Getting help
 ### During the tutorial
 During the tutorial, don't hesitate to ask for help: 
 - ask questions if something isn't clear,
-- there will be a number of developers in the room who can help unblock you.
+- or just call out for individual support: there will be a number of developers 
+  in the room who can help unblock you.
 
 ### After the tutorial
 - This tutorial was recorded and can be watched [here]() [TODO]
