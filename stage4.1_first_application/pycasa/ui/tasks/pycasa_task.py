@@ -48,6 +48,9 @@ class PycasaTask(Task):
     # Task interface ----------------------------------------------------------
 
     def open_in_central_pane(self, filepath):
-        if splitext(filepath)[1] in SUPPORTED_FORMATS:
+        file_ext = splitext(filepath)[1]
+        if file_ext.lower() in SUPPORTED_FORMATS:
             obj = ImageFile(filepath=filepath)
             self.central_pane.edit(obj, factory=ImageFileEditor)
+        else:
+            print("Unsupported file format: {}".format(file_ext))
