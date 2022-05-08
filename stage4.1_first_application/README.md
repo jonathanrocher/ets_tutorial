@@ -1,1 +1,1 @@
-# Hello world in ETS pyface!
+# First real version of the pycasa ETS pyface application!
