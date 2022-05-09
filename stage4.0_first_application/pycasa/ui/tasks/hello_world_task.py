@@ -1,6 +1,5 @@
 
-from pyface.tasks.api import EditorAreaPane, IEditor, IEditorAreaPane, \
-    PaneItem, Task, TraitsTaskPane
+from pyface.tasks.api import Task
 from .hello_world_pane import HelloWorldPane
 
 

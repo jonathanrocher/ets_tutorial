@@ -1,6 +1,6 @@
 from traits.api import Instance
 
-from traitsui.api import InstanceEditor, Item, ModelView, View
+from traitsui.api import Item, ModelView, View
 
 from ..model.hello_world import HelloWorldModel
 

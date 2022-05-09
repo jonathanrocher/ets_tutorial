@@ -1,6 +1,5 @@
-from os.path import abspath, dirname, isfile, join
+from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
-from glob import glob
 
 HERE = dirname(abspath(__file__))
 

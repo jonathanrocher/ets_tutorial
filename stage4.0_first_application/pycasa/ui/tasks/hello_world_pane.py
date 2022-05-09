@@ -1,25 +1,9 @@
-from pyface.tasks.api import EditorAreaPane, IEditor, IEditorAreaPane, \
-    PaneItem, Task, TraitsTaskPane
+from pyface.tasks.api import TraitsTaskPane
 
-from traitsui.api import InstanceEditor, Item, ModelView, View
-from traits.api import HasStrictTraits, Instance, Str
+from traitsui.api import InstanceEditor, Item, View
+from traits.api import Instance
 
-
-class HelloWorldModel(HasStrictTraits):
-
-    content = Str
-
-    def _content_default(self):
-        return "Hello World!"
-
-
-class HelloWorldView(ModelView):
-    model = Instance(HelloWorldModel, ())
-
-    def traits_view(self):
-        return View(
-            Item("model.content")
-        )
+from ..hello_world_view import HelloWorldView
 
 
 class HelloWorldPane(TraitsTaskPane):
