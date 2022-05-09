@@ -18,7 +18,7 @@ detector = Cascade(trained_file)
 if len(sys.argv) > 1:
     image_path = sys.argv[1]
 else:
-    image_path = join("sample_images", "IMG-0311_xmas_2020.JPG")
+    image_path = join("../sample_images", "IMG-0311_xmas_2020.JPG")
     # image_path = join("sample_images", "owls.jpg")
 
 img = imageio.imread(image_path)
