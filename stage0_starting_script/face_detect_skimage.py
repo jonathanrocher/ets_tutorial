@@ -5,7 +5,6 @@ from skimage import data
 from skimage.feature import Cascade
 import matplotlib.pyplot as plt
 from matplotlib import patches
-import imageio
 import sys
 from os.path import join
 
@@ -21,7 +20,7 @@ else:
     image_path = join("../sample_images", "IMG-0311_xmas_2020.JPG")
     # image_path = join("sample_images", "owls.jpg")
 
-img = imageio.imread(image_path)
+img = plt.imread(image_path)
 
 detected = detector.detect_multi_scale(img=img,
                                        scale_factor=1.2,
