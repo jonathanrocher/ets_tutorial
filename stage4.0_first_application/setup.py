@@ -21,7 +21,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'app-runner = {}.app.main:main'.format(PKG_NAME),
+            'pycasa = {}.app.main:main'.format(PKG_NAME),
         ],
     },
 )
