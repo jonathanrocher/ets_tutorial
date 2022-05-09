@@ -1,8 +1,8 @@
 # General imports
 
 # ETS imports
-from traits.api import Event, Instance, observe
-from traitsui.api import InstanceEditor, Item, ModelView, FileEditor, View
+from traits.api import Instance
+from traitsui.api import Item, ModelView, FileEditor, View
 
 # Local imports
 from ..model.file_browser import FileBrowser

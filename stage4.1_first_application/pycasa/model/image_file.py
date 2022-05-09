@@ -1,7 +1,7 @@
 import PIL.Image
 from PIL.ExifTags import TAGS
 
-from traits.api import Dict, File, HasStrictTraits, observe, Property
+from traits.api import Dict, File, HasStrictTraits, observe
 
 
 class ImageFile(HasStrictTraits):

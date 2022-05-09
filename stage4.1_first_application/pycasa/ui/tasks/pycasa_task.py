@@ -3,8 +3,7 @@ from os.path import splitext
 
 # ETS imports
 from traits.api import Instance
-from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout, \
-    TraitsTaskPane
+from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
 
 # Local imports
 from .pycasa_browser_pane import PycasaBrowserPane

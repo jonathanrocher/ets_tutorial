@@ -1,6 +1,5 @@
 # General imports
 from matplotlib.figure import Figure
-from matplotlib.pyplot import imshow, figure
 import imageio
 
 # ETS imports

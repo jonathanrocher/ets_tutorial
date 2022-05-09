@@ -1,10 +1,9 @@
 # General imports
 
 # ETS imports
-from traits.api import HasStrictTraits, Instance, observe, Str
-from traitsui.api import InstanceEditor, Item, ModelView, View
-from pyface.tasks.api import EditorAreaPane, IEditor, IEditorAreaPane, \
-    PaneItem, Task, TraitsDockPane
+from traits.api import Instance, observe
+from traitsui.api import InstanceEditor, Item, View
+from pyface.tasks.api import TraitsDockPane
 
 # Local imports
 from ..file_browser_view import FileBrowserView
