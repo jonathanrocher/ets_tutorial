@@ -22,7 +22,7 @@ class PycasaApplication(TasksApplication):
         return [
             TaskFactory(
                 id='pycasa.hello_world_task',
-                name="Hellow World Editor",
+                name="Hello World Editor",
                 factory=HelloWorldTask
             )
         ]
