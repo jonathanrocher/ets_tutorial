@@ -1,4 +1,6 @@
-
+""" Script analyzing an image, detecting human faces inside it, and printing
+EXIF data about it.
+"""
 import PIL.Image
 from PIL.ExifTags import TAGS
 from skimage import data
@@ -17,8 +19,8 @@ detector = Cascade(trained_file)
 if len(sys.argv) > 1:
     image_path = sys.argv[1]
 else:
-    image_path = join("../sample_images", "IMG-0311_xmas_2020.JPG")
-    # image_path = join("sample_images", "owls.jpg")
+    image_path = join("..", "sample_images", "IMG-0311_xmas_2020.JPG")
+    # image_path = join("..", "sample_images", "owls.jpg")
 
 img = plt.imread(image_path)
 
