@@ -27,6 +27,5 @@ class ImageFileView(ModelView):
     def build_mpl_figure(self, event):
         figure = Figure()
         axes = figure.add_subplot(111)
-        data = imageio.imread(self.model.filepath)
-        axes.imshow(data)
+        axes.imshow(self.model.to_array())
         self.figure = figure
