@@ -2,7 +2,6 @@ from os.path import dirname, join
 from unittest import TestCase
 
 import numpy as np
-from numpy.testing import assert_array_equal
 
 from pycasa.model.image_file import ImageFile
 
@@ -26,5 +25,9 @@ class TestImageFile(TestCase):
     def test_image_metadata(self):
         img = ImageFile(filepath=SAMPLE_IMG1)
         self.assertNotEqual(img.metadata, {})
+        for key in ['ExifVersion', 'ExifImageWidth', 'ExifImageHeight']:
+            self.assertIn(key, img.metadata.keys())
         data = img.to_array()
-        self.assertEqual(data.shape, (768, 1024, 3))
+        expected_shape = (img.metadata['ExifImageHeight'],
+                          img.metadata['ExifImageWidth'], 3)
+        self.assertEqual(data.shape, expected_shape)

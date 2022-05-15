@@ -1,6 +1,5 @@
 # General imports
 from matplotlib.figure import Figure
-import imageio
 
 # ETS imports
 from traits.api import Instance, observe
