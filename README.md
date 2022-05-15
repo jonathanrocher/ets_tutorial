@@ -61,22 +61,23 @@ During the tutorial, don't hesitate to ask for help:
 
 
 ## Outline of the tutorial
-The tutorial will take you through stages to go a from a script (stage 0) to 
-the packaged application. Exercises will get you to build the most significant 
-portions of the differences between each stages but each of them is provided as 
-a separate folder are provided to make sure everyone to get to the end point:
+The tutorial will guide you through all the stages from a basic python script 
+(stage 0) to a fully packaged and installable application (stage 8). The 
+included exercises will walk you through developing the primary product of 
+each stage. 
+A solution is available for each exercise, though, to ensure all participants 
+are able to reach the end goal.
 
   - step 0: python script
-  - step 1: traits-ified script
-  - step 2: etstool, unit test and CI [OPTIONAL]
-  - step 3: traitsUI view for an image file
-      - File
-      - Enum
-      - Range
-      - readonly output
-      - Float
-  - step 4: pyface application: tree navigator and double click on an image to display the traitsUI view of the image.
-  - step 5: pyface application: add folder editor to displaying a table of metadata for all images inside. Add button to launch the face detection on all images. Add widgets to filter images. 
+  - step 1: more robust script with ETS-Traits
+  - step 2: package management tools: etstool, unit test and CI [OPTIONAL]
+  - step 3: GUI: first traitsUI views
+  - step 4: pyface application: tree navigator and double-click on an image to 
+    display the traitsUI view of the image.
+  - step 5: pyface application: 
+    - add folder editor to display a table of metadata for all images inside
+    - add button to launch the face detection on all images
+    - add widgets to filter images
   - step 6: pyface application (adaptation to build central pane editors) [OPTIONAL]
   - step 7: pyface application: background run with traits-futures [OPTIONAL]
   - step 8: 1-click installer
