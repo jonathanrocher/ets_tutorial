@@ -1,4 +1,4 @@
-from traits.api import Instance, Property
+from traits.api import cached_property, Instance, Property
 from traitsui.api import Item, ModelView, View
 from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 
@@ -28,6 +28,7 @@ class ImageFolderView(ModelView):
         resizable=True
     )
 
+    @cached_property
     def _get_metadata_df(self):
         return self.model.create_metadata_df()
 
