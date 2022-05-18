@@ -22,7 +22,8 @@ class ImageFolderView(ModelView):
         Item(
             'metadata_df',
             editor=DataFrameEditor(columns=DISPLAYED_COLUMNS),
-            show_label=False
+            show_label=False,
+            width=1200,
         ),
         resizable=True
     )
