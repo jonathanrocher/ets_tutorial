@@ -4,6 +4,11 @@ from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 
 from pycasa.model.image_folder import ImageFolder
 
+DISPLAYED_COLUMNS = [
+    'ApertureValue', 'ExifVersion', 'Model', 'Make', 'LensModel', 'DateTime',
+    'ShutterSpeedValue', 'XResolution', 'YResolution'
+]
+
 
 class ImageFolderView(ModelView):
     """ ModelView for a folder of images.
@@ -16,19 +21,7 @@ class ImageFolderView(ModelView):
         Item('model.directory', style="readonly", show_label=False),
         Item(
             'metadata_df',
-            editor=DataFrameEditor(
-                columns=[
-                    'ApertureValue',
-                    'ExifVersion',
-                    'Model',
-                    'Make',
-                    'LensModel',
-                    'DateTime',
-                    'ShutterSpeedValue',
-                    'XResolution',
-                    'YResolution'
-                ]
-            ),
+            editor=DataFrameEditor(columns=DISPLAYED_COLUMNS),
             show_label=False
         ),
         resizable=True
