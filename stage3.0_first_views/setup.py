@@ -20,9 +20,4 @@ setup(
     data_files=[
         (".", ["README.md"]),
     ],
-    entry_points={
-        'console_scripts': [
-            f'pycasa = {PKG_NAME}.app.main:main',
-        ],
-    },
 )
