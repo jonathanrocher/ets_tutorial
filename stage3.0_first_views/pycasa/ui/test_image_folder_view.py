@@ -12,7 +12,8 @@ SAMPLE_IMG_DIR = join(TUTORIAL_DIR, "..", "sample_images")
 
 
 class TestImageFolderView(unittest.TestCase):
-    def test_smoke(self):
+    def test_image_folder_view(self):
+        # A smoke test.
         view = ImageFolderView(model=ImageFolder(directory=SAMPLE_IMG_DIR))
         tester = UITester()
         with tester.create_ui(view) as ui:
