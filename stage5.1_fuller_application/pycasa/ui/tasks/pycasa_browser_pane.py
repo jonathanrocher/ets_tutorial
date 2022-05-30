@@ -23,5 +23,4 @@ class PycasaBrowserPane(TraitsDockPane):
 
     @observe("file_browser_view.model.requested_item")
     def open_in_central_pane(self, event):
-        print(event.new)
         self.task.open_in_central_pane(event.new)
