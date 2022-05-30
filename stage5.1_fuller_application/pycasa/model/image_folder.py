@@ -41,7 +41,7 @@ class ImageFolder(HasStrictTraits):
                 file_data = {"filename": filename, "Num. faces": np.nan}
                 try:
                     file_data.update(img_file.metadata)
-                except Exception as e:
+                except Exception:
                     pass
                 data.append(file_data)
 

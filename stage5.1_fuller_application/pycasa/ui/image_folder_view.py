@@ -1,8 +1,7 @@
 # General imports
-from matplotlib.figure import Figure
 
 # ETS imports
-from traits.api import Instance, observe
+from traits.api import Instance
 from traitsui.api import Item, ModelView, View
 from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 # Local imports
