@@ -38,3 +38,18 @@ class TestImageFile(TestCase):
         expected_shape = (img.metadata['ExifImageHeight'],
                           img.metadata['ExifImageWidth'], 3)
         self.assertEqual(data.shape, expected_shape)
+
+    def test_image_data(self):
+        img = ImageFile(filepath=SAMPLE_IMG1)
+        self.assertNotIn(0, img.data.shape)
+        np.testing.assert_almost_equal(img.data, img.to_array())
+        self.assertIsInstance(img.data, np.ndarray)
+        self.assertNotEqual(img.data.mean(), 0)
+
+    def test_face_detection(self):
+        img = ImageFile(filepath=SAMPLE_IMG1)
+        faces = img.detect_faces()
+        self.assertIsInstance(faces, list)
+        for face in faces:
+            self.assertIsInstance(face, dict)
+        self.assertEqual(len(faces), 5)
