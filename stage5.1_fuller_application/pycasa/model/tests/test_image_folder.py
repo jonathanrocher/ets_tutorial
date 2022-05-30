@@ -1,7 +1,6 @@
 from os.path import dirname, join
 from unittest import TestCase
 
-import numpy as np
 import pandas as pd
 
 from pycasa.model.image_folder import ImageFolder
