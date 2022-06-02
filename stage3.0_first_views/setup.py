@@ -14,7 +14,7 @@ with open(init_file) as fp:
 setup(
     name=PKG_NAME,
     version=info["__version__"],
-    description='Hello world for TraitsUI views',
+    description='Introduction to TraitsUI views',
     ext_modules=[],
     packages=find_packages(),
     data_files=[
