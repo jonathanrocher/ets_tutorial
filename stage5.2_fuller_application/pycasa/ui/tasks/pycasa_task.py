@@ -64,3 +64,7 @@ class PycasaTask(Task):
             self.central_pane.edit(obj, factory=ImageFolderEditor)
         else:
             print("Unsupported file format: {}".format(file_ext))
+
+    def prepare_destroy(self):
+        self.traits_executor.shutdown()
+        return super().prepare_destroy()
