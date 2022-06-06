@@ -5,7 +5,12 @@ import pandas as pd
 import numpy as np
 
 # ETS imports
-from traits.api import Directory, Event, HasStrictTraits, Instance
+from traits.api import (
+    Bool, Directory, Event, HasStrictTraits, Instance, observe, Property
+)
+from traits_futures.api import (
+    IterationFuture, submit_iteration, TraitsExecutor
+)
 
 # Local imports
 from .image_file import ImageFile, SUPPORTED_FORMATS
@@ -23,6 +28,12 @@ class ImageFolder(HasStrictTraits):
     data = Instance(pd.DataFrame)
 
     data_updated = Event
+
+    traits_executor = Instance(TraitsExecutor)
+
+    future = Instance(IterationFuture)
+
+    executor_idle = Property(Bool, observe="future.done")
 
     def __init__(self, **traits):
         # Don't forget this!
@@ -54,12 +65,36 @@ class ImageFolder(HasStrictTraits):
         return pd.DataFrame(data)
 
     def compute_num_faces(self, **kwargs):
-        cols = list(self.data.columns)
-        for i, filename in enumerate(self.data[FILENAME_COL]):
-            print(filename)
-            filepath = os.path.join(self.path, filename)
-            img_file = ImageFile(filepath=filepath)
-            faces = img_file.detect_faces(**kwargs)
-            j = cols.index(NUM_FACE_COL)
-            self.data.iloc[i, j] = len(faces)
-            self.data_updated = True
+        for i, num_faces in self._compute_num_faces_iter(**kwargs):
+            self._update_num_faces_in_df(i, num_faces)
+
+    def compute_num_faces_background(self, **kwargs):
+        self.future = submit_iteration(
+            self.traits_executor,
+            self._compute_num_faces_iter,
+            **kwargs
+        )
+
+    def _compute_num_faces_iter(self, **kwargs):
+        # TODO: Refreshing list of image files may break correspondence with
+        # the dataframe.
+        image_files = [
+            ImageFile(filepath=os.path.join(self.path, filename))
+            for filename in self.data[FILENAME_COL]
+        ]
+        for i, image_file in enumerate(image_files):
+            # Yield partial results to future.
+            yield i, len(image_file.detect_faces(**kwargs))
+
+    def _update_num_faces_in_df(self, i, num_faces):
+        self.data.at[i, NUM_FACE_COL] = num_faces
+        self.data_updated = True
+
+    @observe("future:result_event")
+    def _update_df(self, event):
+        # Receive partial result from iteration.
+        idx, num_faces = event.new
+        self._update_num_faces_in_df(idx, num_faces)
+
+    def _get_executor_idle(self):
+        return self.future is None or self.future.done

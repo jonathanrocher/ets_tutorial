@@ -3,6 +3,7 @@ from os.path import splitext
 
 # ETS imports
 from traits.api import Instance
+from traits_futures.api import TraitsExecutor
 from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
 
 # Local imports
@@ -14,6 +15,10 @@ from ..image_file_editor import ImageFileEditor
 
 
 class PycasaTask(Task):
+
+    #: An executor for background tasks.
+    traits_executor = Instance(TraitsExecutor, ())
+
     # 'Task' traits -----------------------------------------------------------
 
     #: The unique id of the task.
@@ -52,7 +57,10 @@ class PycasaTask(Task):
             obj = ImageFile(filepath=filepath)
             self.central_pane.edit(obj, factory=ImageFileEditor)
         elif file_ext == "":
-            obj = ImageFolder(path=filepath)
+            obj = ImageFolder(
+                path=filepath,
+                traits_executor=self.traits_executor
+            )
             self.central_pane.edit(obj, factory=ImageFolderEditor)
         else:
             print("Unsupported file format: {}".format(file_ext))

@@ -27,11 +27,15 @@ class ImageFolderView(ModelView):
         ),
         HGroup(
             Spring(),
-            Item("scan", show_label=False, enabled_when="len(model.data) > 0"),
+            Item(
+                "scan",
+                show_label=False,
+                enabled_when="len(model.data) > 0 and model.executor_idle",
+            ),
             Spring(),
         )
     )
 
     @observe("scan")
     def scan_for_faces(self, event):
-        self.model.compute_num_faces()
+        self.model.compute_num_faces_background()
