@@ -86,8 +86,8 @@ class ImageFolder(HasStrictTraits):
             # Yield partial results to future.
             yield i, len(image_file.detect_faces(**kwargs))
 
-    def _update_num_faces_in_df(self, i, num_faces):
-        self.data.at[i, NUM_FACE_COL] = num_faces
+    def _update_num_faces_in_df(self, img_idx, num_faces):
+        self.data.at[img_idx, NUM_FACE_COL] = num_faces
         self.data_updated = True
 
     @observe("future:result_event")
