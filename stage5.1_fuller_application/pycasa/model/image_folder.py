@@ -25,7 +25,6 @@ class ImageFolder(HasStrictTraits):
 
     def __init__(self, **traits):
         super(ImageFolder, self).__init__(**traits)
-        import pdb ; pdb.set_trace()
         if not isdir(self.directory):
             msg = f"The provided directory isn't a real directory: " \
                   f"{self.directory}"
