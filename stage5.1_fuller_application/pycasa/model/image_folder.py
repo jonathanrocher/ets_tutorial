@@ -1,48 +1,34 @@
-# General imports
-import os
+import glob
+from os.path import expanduser, split
 
 import pandas as pd
-import numpy as np
 
-# ETS imports
-from traits.api import Directory, HasStrictTraits, Instance
+from traits.api import (
+    Directory, HasStrictTraits, Instance, List, observe,
+)
 
-# Local imports
-from .image_file import ImageFile, SUPPORTED_FORMATS
+from pycasa.model.image_file import ImageFile
+
+SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]
 
 
 class ImageFolder(HasStrictTraits):
-    """ Model to hold an image folder.
+    """ Model for a folder of images.
     """
-    path = Directory
+    directory = Directory(expanduser("~"))
 
-    data = Instance(pd.DataFrame)
+    images = List(Instance(ImageFile))
 
-    def __init__(self, **traits):
-        # Don't forget this!
-        super(ImageFolder, self).__init__(**traits)
-        if not os.path.isdir(self.path):
-            msg = f"Unable to create an ImageFolder from {self.path} since" \
-                  f" it is not a valid directory."
-            raise ValueError(msg)
+    @observe("directory")
+    def _get_images(self, event):
+        self.images = [
+            ImageFile(filepath=file)
+            for fmt in SUPPORTED_FORMATS
+            for file in glob.glob(f"{self.directory}/*{fmt}")
+        ]
 
-        self.data = self.to_dataframe()
-
-    def to_dataframe(self):
-        if not self.path:
-            return pd.DataFrame({"filename": [], "Num. faces": []})
-
-        data = []
-        for filename in os.listdir(self.path):
-            file_ext = os.path.splitext(filename)[1].lower()
-            if file_ext in SUPPORTED_FORMATS:
-                filepath = os.path.join(self.path, filename)
-                img_file = ImageFile(filepath=filepath)
-                file_data = {"filename": filename, "Num. faces": np.nan}
-                try:
-                    file_data.update(img_file.metadata)
-                except Exception:
-                    pass
-                data.append(file_data)
-
-        return pd.DataFrame(data)
+    def create_metadata_df(self):
+        return pd.DataFrame(
+            [img.metadata for img in self.images],
+            index=[split(img.filepath)[1] for img in self.images]
+        )
