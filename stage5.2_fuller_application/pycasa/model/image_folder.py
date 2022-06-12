@@ -9,7 +9,7 @@ from traits.api import (
     Bool, Directory, Event, HasStrictTraits, Instance, observe, Property
 )
 from traits_futures.api import (
-    IterationFuture, submit_iteration, TraitsExecutor
+    CallFuture, submit_call, TraitsExecutor
 )
 
 # Local imports
@@ -31,7 +31,7 @@ class ImageFolder(HasStrictTraits):
 
     traits_executor = Instance(TraitsExecutor)
 
-    future = Instance(IterationFuture)
+    future = Instance(CallFuture)
 
     executor_idle = Property(Bool, observe="future.done")
 
@@ -65,36 +65,33 @@ class ImageFolder(HasStrictTraits):
         return pd.DataFrame(data)
 
     def compute_num_faces(self, **kwargs):
-        for i, num_faces in self._compute_num_faces_iter(**kwargs):
-            self._update_num_faces_in_df(i, num_faces)
+        num_faces = self._compute_num_faces_iter(**kwargs)
+        self._update_num_faces_in_df(num_faces)
 
     def compute_num_faces_background(self, **kwargs):
-        self.future = submit_iteration(
+        self.future = submit_call(
             self.traits_executor,
             self._compute_num_faces_iter,
             **kwargs
         )
 
-    def _compute_num_faces_iter(self, **kwargs):
-        # TODO: Refreshing list of image files may break correspondence with
-        # the dataframe.
+    def _compute_num_faces(self, **kwargs):
         image_files = [
             ImageFile(filepath=os.path.join(self.path, filename))
             for filename in self.data[FILENAME_COL]
         ]
-        for i, image_file in enumerate(image_files):
-            # Yield partial results to future.
-            yield i, len(image_file.detect_faces(**kwargs))
+        return [
+            len(img_file.detect_faces(**kwargs)) for img_file in image_files
+        ]
 
-    def _update_num_faces_in_df(self, img_idx, num_faces):
-        self.data.at[img_idx, NUM_FACE_COL] = num_faces
+    def _update_num_faces_in_df(self, num_faces_all_images):
+        for img_idx, num_faces in enumerate(num_faces_all_images):
+            self.data.at[img_idx, NUM_FACE_COL] = num_faces
         self.data_updated = True
 
-    @observe("future:result_event")
+    @observe("future:done")
     def _update_df(self, event):
-        # Receive partial result from iteration.
-        idx, num_faces = event.new
-        self._update_num_faces_in_df(idx, num_faces)
+        self._update_num_faces_in_df(event.new)
 
     def _get_executor_idle(self):
         return self.future is None or self.future.done
