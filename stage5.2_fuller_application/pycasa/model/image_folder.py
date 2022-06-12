@@ -71,7 +71,7 @@ class ImageFolder(HasStrictTraits):
     def compute_num_faces_background(self, **kwargs):
         self.future = submit_call(
             self.traits_executor,
-            self._compute_num_faces_iter,
+            self._compute_num_faces,
             **kwargs
         )
 
@@ -91,7 +91,7 @@ class ImageFolder(HasStrictTraits):
 
     @observe("future:done")
     def _update_df(self, event):
-        self._update_num_faces_in_df(event.new)
+        self._update_num_faces_in_df(self.future.result)
 
     def _get_executor_idle(self):
         return self.future is None or self.future.done
