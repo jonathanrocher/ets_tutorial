@@ -44,7 +44,6 @@ for path in image_paths:
 
     plt.imshow(img)
     img_desc = plt.gca()
-    plt.set_cmap('gray')
 
     for patch in detected:
 
