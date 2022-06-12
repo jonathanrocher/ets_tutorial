@@ -13,10 +13,12 @@ from matplotlib import patches
 
 # Select image file -----------------------------------------------------------
 
-image_path = join("..", "sample_images", "IMG-0311_xmas_2020.JPG")
-image_path2 = join("..", "sample_images", "owls.jpg")
+image_paths = [
+    join("..", "sample_images", "IMG-0311_xmas_2020.JPG"),
+    join("..", "sample_images", "owls.jpg")
+]
 
-for path in [image_path, image_path2]:
+for path in image_paths:
     img = PIL.Image.open(path)
 
     img_metadata = {TAGS[k]: v for k, v in img._getexif().items() if k in TAGS}
