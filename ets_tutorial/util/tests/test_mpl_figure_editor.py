@@ -14,6 +14,7 @@ class Plot(HasTraits):
 
     view = View(
         Item("figure", editor=MplFigureEditor(), show_label=False),
+        resizable=True
     )
 
     def _figure_default(self):
