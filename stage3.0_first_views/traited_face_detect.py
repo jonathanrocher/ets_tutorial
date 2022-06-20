@@ -83,7 +83,7 @@ class ImageFileView(ModelView):
     figure = Instance(Figure)
 
     view = View(
-        Item("model.filepath", style="readonly", show_label=False),
+        Item("model.filepath", show_label=False),
         Item("figure", editor=MplFigureEditor(), show_label=False),
         resizable=True
     )
