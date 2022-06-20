@@ -85,7 +85,8 @@ class ImageFileView(ModelView):
     view = View(
         Item("model.filepath", show_label=False),
         Item("figure", editor=MplFigureEditor(), show_label=False),
-        resizable=True
+        resizable=True,
+        title="Pycasa"
     )
 
     @observe("model.filepath")
