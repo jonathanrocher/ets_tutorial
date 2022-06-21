@@ -1,6 +1,4 @@
 # General imports
-from os.path import join
-
 import PIL.Image
 import numpy as np
 from matplotlib import patches
