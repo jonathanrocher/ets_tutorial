@@ -18,7 +18,7 @@ from traits.api import (
     List,
     observe,
 )
-from traitsui.api import Item, ModelView, View
+from traitsui.api import ModelView, UItem, View
 
 # Local imports
 from ets_tutorial.util.mpl_figure_editor import MplFigureEditor
@@ -84,8 +84,8 @@ class ImageFileView(ModelView):
     figure = Instance(Figure)
 
     view = View(
-        Item("model.filepath", show_label=False),
-        Item("figure", editor=MplFigureEditor(), show_label=False),
+        UItem("model.filepath"),
+        UItem("figure", editor=MplFigureEditor()),
         resizable=True,
         title="Pycasa"
     )
