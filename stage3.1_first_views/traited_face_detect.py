@@ -18,7 +18,7 @@ from traits.api import (
     List,
     observe,
 )
-from traitsui.api import ModelView, UItem, View
+from traitsui.api import ModelView, OKButton, UItem, View
 
 # Local imports
 from ets_tutorial.util.mpl_figure_editor import MplFigureEditor
@@ -87,12 +87,15 @@ class ImageFileView(ModelView):
     view = View(
         UItem("model.filepath"),
         UItem("figure", editor=MplFigureEditor()),
+        buttons=[OKButton],
         resizable=True,
         title="Pycasa"
     )
 
     @observe("model.filepath")
     def build_mpl_figure(self, event):
+        if not self.model.filepath:
+            return
         figure = Figure()
         axes = figure.add_subplot(111)
         axes.imshow(self.model.to_array())
@@ -111,8 +114,6 @@ class ImageFileView(ModelView):
 
 
 if __name__ == '__main__':
-    img = ImageFile(
-        filepath=join("..", "sample_images", "IMG-0311_xmas_2020.JPG")
-    )
+    img = ImageFile()
     view = ImageFileView(model=img)
     view.configure_traits()
