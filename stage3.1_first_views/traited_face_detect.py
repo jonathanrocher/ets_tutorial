@@ -45,6 +45,7 @@ class ImageFile(HasStrictTraits):
         self.metadata = {}
         self._update_metadata_with_exif()
         self._detect_faces()
+        print(self.metadata)
 
     def _update_metadata_with_exif(self):
         if not self.filepath:
@@ -114,5 +115,4 @@ if __name__ == '__main__':
         filepath=join("..", "sample_images", "IMG-0311_xmas_2020.JPG")
     )
     view = ImageFileView(model=img)
-    print(img.metadata)
     view.configure_traits()
