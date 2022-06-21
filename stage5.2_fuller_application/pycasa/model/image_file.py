@@ -8,7 +8,7 @@ import numpy as np
 
 # ETS imports
 from traits.api import Array, cached_property, Dict, File, HasStrictTraits, \
-    Property
+    List, Property
 
 SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg"]
 
@@ -21,6 +21,8 @@ class ImageFile(HasStrictTraits):
     metadata = Property(Dict, depends_on="filepath")
 
     data = Property(Array, depends_on="filepath")
+
+    faces = List
 
     def to_array(self):
         file_ext = os.path.splitext(self.filepath)[1].lower()
@@ -60,4 +62,5 @@ class ImageFile(HasStrictTraits):
                                             step_ratio=step_ratio,
                                             min_size=(min_size, min_size),
                                             max_size=(max_size, max_size))
+        self.faces = faces
         return faces
