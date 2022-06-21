@@ -65,13 +65,14 @@ class ImageFile(HasStrictTraits):
         trained_file = data.lbp_frontal_face_cascade_filename()
         # Initialize the detector cascade.
         detector = Cascade(trained_file)
-        self.faces = detector.detect_multi_scale(
+        faces = detector.detect_multi_scale(
             img=self.to_array(),
             scale_factor=1.2,
             step_ratio=1,
             min_size=(60, 60),
             max_size=(600, 600)
         )
+        self.faces.extend(faces)
         self.metadata['Number of faces'] = len(self.faces)
 
 
