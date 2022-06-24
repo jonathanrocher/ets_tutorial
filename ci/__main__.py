@@ -95,8 +95,7 @@ import os
 import subprocess
 import sys
 from contextlib import contextmanager
-from shutil import copy as copyfile
-from shutil import rmtree
+from shutil import copy as copyfile, rmtree
 from tempfile import mkdtemp
 
 import click
@@ -242,14 +241,7 @@ def cli():
 def install(runtime, toolkit, environment, editable, source):
     """Install project and dependencies into a clean EDM environment."""
     parameters = get_parameters(runtime, toolkit, environment)
-    packages = (
-            dependencies
-            # | extra_dependencies.get(toolkit, set())
-            # | extra_dependencies["test"]
-            # | extra_dependencies["examples"]
-            # | extra_dependencies["editors"]
-            | ci_dependencies
-    )
+    packages = (dependencies | ci_dependencies)
 
     # edm commands to setup the development environment
     commands = [
@@ -508,7 +500,8 @@ def flake8(runtime, toolkit, environment, strict):
     if strict:
         config = "--config=flake8_strict.cfg "
     commands = [
-        "edm run -e {environment} -- python -m flake8 " + config,
+        "edm run -e {environment} -- python -m flake8 --ignore=H101 "
+        "--exclude=build" + config,
     ]
     execute(commands, parameters)
 
@@ -630,8 +623,8 @@ def get_parameters(runtime, toolkit, environment):
     }
     if toolkit not in supported_combinations[runtime]:
         msg = (
-                "Python {runtime} and toolkit {toolkit} not supported by "
-                + "test environments"
+            "Python {runtime} and toolkit {toolkit} not supported by "
+            "test environments"
         )
         raise RuntimeError(msg.format(**parameters))
     if environment is None:
