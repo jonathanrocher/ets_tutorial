@@ -16,6 +16,10 @@ the process, attendees will learn how to design clean, maintainable and
 scalable applications, and package them into an installer.
 
 ## Set up instructions
+First step to set yourself up is to clone this repository
+```commandline
+git clone git@github.com:jonathanrocher/ets_tutorial.git
+```
 
 ### Requirements
 
@@ -35,6 +39,10 @@ Python environment and install all dependencies in it:
 edm env create ets_tutorial
 edm shell -e ets_tutorial
 edm install pandas matplotlib traits traitsui scikits.image pillow pyqt5 ipython
+```
+
+```commandline
+python etstool.py build
 ```
 
 ### Conda users
@@ -64,24 +72,24 @@ During the tutorial, don't hesitate to ask for help:
 
 ## Outline of the tutorial
 The tutorial will guide you through all the stages from a basic python script 
-(stage 0) to a fully packaged and installable application (stage 8). The 
+(stage 1) to a fully packaged and installable application (stage 8). The 
 included exercises will walk you through developing the primary product of 
-each stage. 
+each stage.
 A solution is available for each exercise, though, to ensure all participants 
 are able to reach the end goal.
 
-  - step 0: python script
-  - step 1: more robust script with ETS-Traits
-  - step 2: package management tools: etstool, unit test and CI [OPTIONAL]
+  - step 1: python script
+  - step 2: more robust script with ETS-Traits
   - step 3: GUI: first traitsUI views
   - step 4: pyface application: tree navigator and double-click on an image to 
     display the traitsUI view of the image.
-  - step 5: pyface application: 
+  - step 5: Fuller pyface application: 
     - add folder editor to display a table of metadata for all images inside
     - add button to launch the face detection on all images
     - add widgets to filter images
-  - step 6: pyface application (adaptation to build central pane editors) [OPTIONAL]
-  - step 7: pyface application: background run with traits-futures [OPTIONAL]
+  - INTERLUDE: code structure for scalability
+  - step 6: pyface application: adding menu and branding 
+  - step 7: pyface application: advanced features [OPTIONAL]
   - step 8: 1-click installer
 
 
