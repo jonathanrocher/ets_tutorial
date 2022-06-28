@@ -42,7 +42,10 @@ class ImageFileView(ModelView):
 
     @observe("model.faces")
     def update_mpl_figure_with_faces(self, events):
-        axes = self.figure.get_axes()[0]
+        figure = Figure()
+        axes = figure.add_subplot(111)
+        axes.imshow(self.model.to_array())
+
         for face in self.model.faces:
             axes.add_patch(
                 patches.Rectangle(
@@ -54,3 +57,4 @@ class ImageFileView(ModelView):
                     linewidth=2
                 )
             )
+        self.figure = figure
