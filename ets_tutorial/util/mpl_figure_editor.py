@@ -31,6 +31,13 @@ class _MplFigureEditor(Editor):
         """Creates sub-widgets and does layout.
         """
         canvas = FigureCanvasQTAgg(figure=self.value)
+
+        # Ensure figure gets redrawn if it becomes stale.
+        # Ref: https://matplotlib.org/stable/users/explain/interactive_guide.html#stale-artists  # noqa: 501
+        def stale_callback(artist, val):
+            canvas.draw_idle()
+        self.value.stale_callback = stale_callback
+
         # Allow the figure canvas to expand and shrink with the main widget.
         canvas.setSizePolicy(
             QtGui.QSizePolicy.Policy.Expanding,
