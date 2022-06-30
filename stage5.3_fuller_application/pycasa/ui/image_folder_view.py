@@ -7,11 +7,6 @@ from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 # Local imports
 from ..model.image_folder import ImageFolder
 
-from traits.api import Instance
-from traitsui.api import Item, ModelView, View
-from traitsui.ui_editors.data_frame_editor import DataFrameEditor
-
-from pycasa.model.image_folder import ImageFolder
 
 DISPLAYED_COLUMNS = [
     'ApertureValue', 'ExifVersion', 'Model', 'Make', 'LensModel', 'DateTime',
