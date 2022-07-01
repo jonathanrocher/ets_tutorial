@@ -11,7 +11,7 @@ SAMPLE_IMG_DIR = join(TUTORIAL_DIR, "..", "sample_images")
 
 class TestImageFolder(unittest.TestCase):
     def setUp(self):
-        self.filenames = ["IMG-0311_xmas_2020.JPG", "owls.jpg"]
+        self.filenames = ["IMG-0311_xmas_2020.JPG", "20210802_191429.jpg"]
         self.img_folder = ImageFolder(directory=SAMPLE_IMG_DIR)
 
     def test_filters_images(self):
