@@ -2,7 +2,6 @@ import matplotlib
 from matplotlib.backends.backend_qt5agg import (
         FigureCanvasQTAgg, NavigationToolbar2QT
 )
-from matplotlib.backend_bases import FigureCanvasBase
 from pyface.qt import QtGui
 from traitsui.api import BasicEditorFactory
 from traitsui.qt4.editor import Editor
