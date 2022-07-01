@@ -64,10 +64,6 @@ class ImageFolder(HasStrictTraits):
 
         return pd.DataFrame(data)
 
-    def compute_num_faces(self, **kwargs):
-        num_faces = self._compute_num_faces(**kwargs)
-        self._update_num_faces_in_df(num_faces)
-
     def compute_num_faces_background(self, **kwargs):
         self.future = submit_call(
             self.traits_executor,
@@ -84,14 +80,12 @@ class ImageFolder(HasStrictTraits):
             len(img_file.detect_faces(**kwargs)) for img_file in image_files
         ]
 
-    def _update_num_faces_in_df(self, num_faces_all_images):
+    @observe("future:done")
+    def _update_df(self, event):
+        num_faces_all_images = self.future.result
         for img_idx, num_faces in enumerate(num_faces_all_images):
             self.data.at[img_idx, NUM_FACE_COL] = num_faces
         self.data_updated = True
-
-    @observe("future:done")
-    def _update_df(self, event):
-        self._update_num_faces_in_df(self.future.result)
 
     def _get_executor_idle(self):
         return self.future is None or self.future.done
