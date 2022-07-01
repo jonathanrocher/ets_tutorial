@@ -65,7 +65,7 @@ class ImageFolder(HasStrictTraits):
         return pd.DataFrame(data)
 
     def compute_num_faces(self, **kwargs):
-        num_faces = self._compute_num_faces_iter(**kwargs)
+        num_faces = self._compute_num_faces(**kwargs)
         self._update_num_faces_in_df(num_faces)
 
     def compute_num_faces_background(self, **kwargs):
