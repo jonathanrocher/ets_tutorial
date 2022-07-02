@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from traits.api import Bool, Button, Enum, Instance, List, observe
 from traitsui.api import HGroup, Item, Label, ListStrEditor, ModelView, \
-    Spring, VGroup, View
+    Spring, View
 from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 
 # Local imports
