@@ -90,8 +90,7 @@ class ImageFolderView(ModelView):
     @observe("selected_make")
     def update_make(self, event):
         if self.selected_make == "All":
-            self.make_mask = pd.Series(np.ones(len(self.model.data),
-                                               dtype=bool))
+            self.make_mask = pd.Series([True] * len(self.model.data))
         else:
             self.make_mask = self.model.data['Make'] == self.selected_make
 
