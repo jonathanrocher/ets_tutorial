@@ -83,7 +83,6 @@ class ImageFolderView(ModelView):
                      enabled_when="len(model.data) > 0"),
                 Spring(),
             ),
-            resizable=True, height=800
         )
         return view
 
@@ -134,7 +133,7 @@ class ImageFolderView(ModelView):
         def parse_year(x):
             return x.split(":")[0] if isinstance(x, str) else "unknown"
 
-        self.all_data[YEAR_KEY] = self.all_data['DateTime'].apply(parse_year)
+        self.all_data[YEAR_KEY] = self.all_data[DATETIME_COL].apply(parse_year)
         return sorted(self.all_data[YEAR_KEY].unique().tolist())
 
 
