@@ -15,7 +15,7 @@ jupyter:
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Sharing scientific tools: script to desktop application
 
-**Jonathan Rocher, Siddhant Wahal, Jason Chambless, Prabhu Ramachandran**
+**Jonathan Rocher, Siddhant Wahal, Jason Chambless, Corran Webster, Prabhu Ramachandran**
 
 **SciPy 2022**
 

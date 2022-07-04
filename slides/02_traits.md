@@ -4,10 +4,10 @@ jupyter:
     text_representation:
       extension: .md
       format_name: markdown
-      format_version: '1.2'
-      jupytext_version: 1.3.2
+      format_version: '1.3'
+      jupytext_version: 1.13.7
   kernelspec:
-    display_name: Python 3
+    display_name: Python 3 (ipykernel)
     language: python
     name: python3
 ---
@@ -45,7 +45,7 @@ jupyter:
 
 - Small change to thinking yields big benefits
 
-- Do no conflate GUI with the core model
+- Do not mix GUI code with core model
 
 - Build a clean model first
 
@@ -73,17 +73,16 @@ jupyter:
 <!-- #endregion -->
 
 ```python
-from traits.api import (Delegate, HasTraits,
-    Instance, Int, Str, observe)
+from traits.api import Delegate, HasStrictTraits, Instance, Int, Str, observe
 
-class Parent(HasTraits):
+class Parent(HasStrictTraits):
     # INITIALIZATION: 'last_name' initialized to ''
     last_name = Str('')
 
 ```
 
 ```python
-class Child(HasTraits):
+class Child(HasStrictTraits):
     age = Int
     # VALIDATION: 'father' must be Parent instance
     father = Instance(Parent)
@@ -153,18 +152,15 @@ moe.age = 21
 <!-- #endregion -->
 
 <!-- #region slideshow={"slide_type": "slide"} -->
-## Trait change notification
+## `HasStrictTraits` vs. `HasStrictTraits`
 
-- Static: `def _<trait_name>_changed()`
-- Decorator: `@observe('extended.trait.name')`
-- Dynamic:
+- Better to use `HasStrictTraits`
+- Will catch errors when you mistype or misspell an attribute
+- Will not allow setting any attribute not already declared
 
-```obj.observe(handler, 'extended.trait.name')
-```
-
-- See documentation: https://docs.enthought.com/traits/traits_user_manual/notification.html
 
 <!-- #endregion -->
+
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Notification example
@@ -172,11 +168,11 @@ moe.age = 21
 <!-- #endregion -->
 
 ```python
-class Parent(HasTraits):
+class Parent(HasStrictTraits):
     last_name = Str('')
 
 
-class Child(HasTraits):
+class Child(HasStrictTraits):
     age = Int
     father = Instance(Parent)
 
@@ -190,19 +186,37 @@ class Child(HasTraits):
 ```
 
 ```python
-def handler(event):
-    print("handler", event.object, event.name, event.old, event.new)
+dad = Parent(last_name='Zubizaretta')
+c = Child(father=Parent)
 ```
 
 ```python
-c.age = 21
-c.father = Parent(last_name='Shyam')
+dad.last_name = 'Valderrama'
+```
+
+```python
+def handler(event):
+    print("handler", event.object, event.name, event.old, event.new)
 ```
 
 ```python
 c = Child(father=Parent(last_name='Ram'))
 c.observe(handler, 'father, age')
 ```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Trait change notification
+
+- Static: `def _<trait_name>_changed()`
+- Decorator: `@observe('extended.trait.name')`
+- Dynamic:
+
+```obj.observe(handler, 'extended.trait.name')
+```
+
+- See documentation: https://docs.enthought.com/traits/traits_user_manual/notification.html
+
+<!-- #endregion -->
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Exercise
@@ -223,11 +237,11 @@ c.observe(handler, 'father, age')
 ```python
 from traits.api import Bool, Enum
 
-class Parent(HasTraits):
+class Parent(HasStrictTraits):
     last_name = Str('')
 
 
-class Child(HasTraits):
+class Child(HasStrictTraits):
     age = Int
     father = Instance(Parent)
     first_name = Str('')
@@ -239,7 +253,7 @@ class Child(HasTraits):
 
     @observe('father.last_name')
     def _dad_name_updated(self, event):
-        print('DAD name', self.father.last_name)
+        print('Dad name', self.father.last_name)
 
 ```
 
@@ -260,9 +274,9 @@ c = Child(age=21, father=p, first_name='Romano', gender='male')
 ```python
 import datetime
 
-from traits.api import HasTraits, Date, Range
+from traits.api import HasStrictTraits, Date, Range
 
-class Thing(HasTraits):
+class Thing(HasStrictTraits):
     date = Date()
     age = Int(12)
 
@@ -279,3 +293,84 @@ t = Thing()
 ```python
 type(c.age)
 ```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Trait Lists
+
+
+<!-- #endregion -->
+
+```python
+from traits.api import List
+
+class Bowl(HasStrictTraits):
+    fruits = List(Str)
+
+    def _fruits_changed(self, o, n):
+        print("Fruits changed", o, n)
+
+```
+
+```python
+b = Bowl()
+b.fruits = ['apple']
+b.fruits.append('mango')
+```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Trait List events
+
+<!-- #endregion -->
+
+```python
+class Bowl(HasStrictTraits):
+    fruits = List(Str)
+    def _fruits_changed(self, o, n):
+        print("Fruits changed", o, n)
+
+    def _fruits_items_changed(self, list_event):
+        print(list_event.index)
+        print(list_event.removed)
+        print(list_event.added)
+
+```
+
+```python
+b = Bowl()
+b.fruits = ['apple']
+b.fruits.append('mango')
+```
+
+```python
+def handler(event):
+    print("h:", event)
+
+b.observe(handler, 'fruits.items')
+b.fruits.append('peach')
+```
+
+```python
+# Remove the handler
+b.observe(handler, 'fruits.items', remove=True)
+```
+
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Other events
+
+- `TraitChangeEvent`
+- `ListChangeEvent`
+- `DictChangeEvent`
+- `SetChangeEvent`
+
+<!-- #endregion -->
+
+
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Exercise time!
+
+- Take the simple example
+- Create a simple Traits model
+
+<!-- #endregion -->
