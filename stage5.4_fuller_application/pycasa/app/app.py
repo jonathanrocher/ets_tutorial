@@ -4,8 +4,9 @@
 import logging
 
 from pyface.tasks.api import TasksApplication, TaskFactory
+from pyface.api import SplashScreen
 from ..ui.tasks.pycasa_task import PycasaTask
-
+from ..ui.image_resources import app_icon
 logger = logging.getLogger(__name__)
 
 
@@ -26,3 +27,11 @@ class PycasaApplication(TasksApplication):
                 factory=PycasaTask
             )
         ]
+
+    def _icon_default(self):
+        return app_icon
+
+    def _splash_screen_default(self):
+        from pycasa.ui.image_resources import app_icon
+        splash_screen = SplashScreen(image=app_icon)
+        return splash_screen

@@ -9,6 +9,10 @@ from pyface.tasks.action.api import DockPaneToggleGroup, SGroup, SMenu, \
     SMenuBar, SToolBar, TaskWindowAction
 from pyface.tasks.action.task_action import TaskAction
 
+from traits.api import HasStrictTraits, File
+from traitsui.api import Item, View
+from pycasa.ui.image_resources import app_icon
+
 # Local imports
 from .pycasa_browser_pane import PycasaBrowserPane
 from ...model.image_folder import ImageFolder
@@ -64,11 +68,6 @@ class PycasaTask(Task):
     # Menu action methods -----------------------------------------------------
 
     def request_open_new_path(self):
-        from traits.api import HasStrictTraits, File
-
-        class PathSelector(HasStrictTraits):
-            filepath = File
-
         selector = PathSelector()
         ui = selector.edit_traits(kind="livemodal")
         if ui.result:
@@ -144,3 +143,11 @@ class PycasaTask(Task):
             )
         )
         return menu_bar
+
+
+class PathSelector(HasStrictTraits):
+    filepath = File
+
+    view = View(Item("filepath"),
+                resizable=True,
+                icon=app_icon)
