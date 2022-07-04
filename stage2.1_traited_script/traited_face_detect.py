@@ -52,39 +52,41 @@ class ImageFile(HasStrictTraits):
         self.metadata["Number of faces detected"] = len(detected)
 
 
-# Select image file -----------------------------------------------------------
+if __name__ == "__main__":
 
-image_path = join("..", "sample_images", "IMG-0311_xmas_2020.JPG")
-image_path2 = join("..", "sample_images", "owls.jpg")
+    # Select image file -------------------------------------------------------
 
-img = ImageFile()
-for path in [image_path, image_path2]:
+    image_path = join("..", "sample_images", "IMG-0311_xmas_2020.JPG")
+    image_path2 = join("..", "sample_images", "20210802_191429.jpg")
 
-    img.filepath = path
+    img = ImageFile()
+    for path in [image_path, image_path2]:
 
-    # Detect faces ------------------------------------------------------------
+        img.filepath = path
 
-    img.detect_faces()
+        # Detect faces --------------------------------------------------------
 
-    print(img.metadata)
+        img.detect_faces()
 
-    # Visualize results -------------------------------------------------------
+        print(img.metadata)
 
-    plt.imshow(img.to_array())
-    img_desc = plt.gca()
-    plt.set_cmap('gray')
+        # Visualize results ---------------------------------------------------
 
-    for patch in img.faces:
+        plt.imshow(img.to_array())
+        img_desc = plt.gca()
+        plt.set_cmap('gray')
 
-        img_desc.add_patch(
-            patches.Rectangle(
-                (patch['c'], patch['r']),
-                patch['width'],
-                patch['height'],
-                fill=False,
-                color='r',
-                linewidth=2
+        for patch in img.faces:
+
+            img_desc.add_patch(
+                patches.Rectangle(
+                    (patch['c'], patch['r']),
+                    patch['width'],
+                    patch['height'],
+                    fill=False,
+                    color='r',
+                    linewidth=2
+                )
             )
-        )
 
-    plt.show()
+        plt.show()
