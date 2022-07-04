@@ -64,10 +64,28 @@ class PycasaTask(Task):
     # Menu action methods -----------------------------------------------------
 
     def request_open_new_path(self):
-        pass
+        from traits.api import HasStrictTraits, File
+
+        class PathSelector(HasStrictTraits):
+            filepath = File
+
+        selector = PathSelector()
+        ui = selector.edit_traits(kind="livemodal")
+        if ui.result:
+            self.open_in_central_pane(selector.filepath)
 
     def scan_current_path(self):
-        pass
+        if self.central_pane.active_editor is None:
+            msg = "No active tab/path. You must open a path before you can " \
+                  "scan it for faces"
+            error(None, msg)
+
+        active_editor = self.central_pane.active_editor
+        model = active_editor.obj
+        if isinstance(model, ImageFolder):
+            model.compute_num_faces()
+        else:
+            model.detect_faces()
 
     # Initialization methods --------------------------------------------------
 
@@ -97,9 +115,8 @@ class PycasaTask(Task):
                 SGroup(
                     TaskAction(name='Open...',
                                accelerator='Ctrl+N',
-                               method='request_open_new_path',
-                               enabled_name='repository.scanned'),
-                    id='SelectionGroup', name='SelectionGroup',
+                               method='request_open_new_path'),
+                    id='OpenGroup', name='OpenGroup',
                 ),
                 SGroup(
                     TaskWindowAction(
@@ -116,9 +133,9 @@ class PycasaTask(Task):
                 SGroup(
                     TaskAction(name='Scan',
                                accelerator='Ctrl+R',
-                               method='request_rescan_repository',
+                               method='scan_current_path',
                                image=ImageResource('zoom-draw')),
-                    id='RepositoryGroup', name='RepositoryGroup'
+                    id='ScanGroup', name='ScanGroup'
                 ),
                 id='Tools', name='&Tools',
             ),

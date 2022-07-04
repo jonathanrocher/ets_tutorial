@@ -1,4 +1,4 @@
-from traits.api import Property
+from traits.api import Instance, Property
 from pyface.tasks.api import Editor
 
 from .image_folder_view import ImageFolderView
