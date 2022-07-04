@@ -3,7 +3,11 @@ from os.path import splitext
 
 # ETS imports
 from traits.api import Instance
+from pyface.api import confirm, error, ImageResource
 from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
+from pyface.tasks.action.api import DockPaneToggleGroup, SGroup, SMenu, \
+    SMenuBar, SToolBar, TaskWindowAction
+from pyface.tasks.action.task_action import TaskAction
 
 # Local imports
 from .pycasa_browser_pane import PycasaBrowserPane
@@ -56,3 +60,70 @@ class PycasaTask(Task):
             self.central_pane.edit(obj, factory=ImageFolderEditor)
         else:
             print("Unsupported file format: {}".format(file_ext))
+
+    # Menu action methods -----------------------------------------------------
+
+    def request_open_new_path(self):
+        pass
+
+    def scan_current_path(self):
+        pass
+
+    # Initialization methods --------------------------------------------------
+
+    def _tool_bars_default(self):
+        # No accelerators here: they are added to menu entries
+        # Note: Image resources are looked for in an images folder next to the
+        # module invoking the resource.
+        tool_bars = [
+            SToolBar(
+                TaskAction(name='Open...',
+                           accelerator='Ctrl+N',
+                           method='request_open_new_path',
+                           image=ImageResource('document-open')),
+                TaskAction(name='Scan',
+                           accelerator='Ctrl+R',
+                           method='scan_current_path',
+                           image=ImageResource('zoom-draw')),
+                image_size=(32, 32), show_tool_names=False, id='ToolsBar',
+                name='ToolsBar'
+            ),
+        ]
+        return tool_bars
+
+    def _menu_bar_default(self):
+        menu_bar = SMenuBar(
+            SMenu(
+                SGroup(
+                    TaskAction(name='Open...',
+                               accelerator='Ctrl+N',
+                               method='request_open_new_path',
+                               enabled_name='repository.scanned'),
+                    id='SelectionGroup', name='SelectionGroup',
+                ),
+                SGroup(
+                    TaskWindowAction(
+                        name='Close',
+                        accelerator='Ctrl+W',
+                        method='close',
+                    ),
+                    id='CloseGroup', name='CloseGroup',
+                ),
+                id='File', name='&File'),
+            SMenu(DockPaneToggleGroup(),
+                  id='View', name='&View'),
+            SMenu(
+                SGroup(
+                    TaskAction(name='Scan',
+                               accelerator='Ctrl+R',
+                               method='request_rescan_repository',
+                               image=ImageResource('zoom-draw')),
+                    id='RepositoryGroup', name='RepositoryGroup'
+                ),
+                id='Tools', name='&Tools',
+            ),
+            SMenu(
+                id='Help', name='&Help'
+            )
+        )
+        return menu_bar

@@ -13,6 +13,8 @@ class PycasaBrowserPane(TraitsDockPane):
 
     id = 'pycasa.file_browser_pane'
 
+    name = "File browser"
+
     file_browser_view = Instance(FileBrowserView, ())
 
     def traits_view(self):
