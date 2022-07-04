@@ -19,6 +19,12 @@ DISPLAYED_COLUMNS = [FILENAME_COL, NUM_FACE_COL] + [
     'ISOSpeedRatings', 'SceneType'
 ]
 
+YEAR_KEY = "__year__"
+
+DATETIME_COL = "DateTime"
+
+MAKE_COL = 'Make'
+
 
 class ImageFolderView(ModelView):
     """ ModelView for an image folder object.
@@ -30,6 +36,10 @@ class ImageFolderView(ModelView):
     # Filters widgets
     view_filter_controls = Bool
 
+    # Copy of the model's data, with filtering columns added if missing
+    all_data = Instance(pd.DataFrame)
+
+    # Filtered dataframe based on filtering widgets
     filtered_data = Instance(pd.DataFrame)
 
     year_mask = Instance(pd.Series)
@@ -82,21 +92,22 @@ class ImageFolderView(ModelView):
     @observe("scan")
     def scan_for_faces(self, event):
         self.model.compute_num_faces()
+        self.all_data = self.model.data.copy()
 
     @observe("selected_years")
     def update_years(self, event):
-        self.year_mask = self.model.data['Year'].isin(self.selected_years)
+        self.year_mask = self.all_data[YEAR_KEY].isin(self.selected_years)
 
     @observe("selected_make")
     def update_make(self, event):
         if self.selected_make == "All":
             self.make_mask = pd.Series([True] * len(self.model.data))
         else:
-            self.make_mask = self.model.data['Make'] == self.selected_make
+            self.make_mask = self.all_data[MAKE_COL] == self.selected_make
 
-    @observe("year_mask, make_mask")
+    @observe("year_mask, make_mask, all_data")
     def update_filtered_data(self, event):
-        self.filtered_data = self.model.data[self.year_mask & self.make_mask]
+        self.filtered_data = self.all_data[self.year_mask & self.make_mask]
 
     # Initialization methods --------------------------------------------------
 
@@ -106,15 +117,25 @@ class ImageFolderView(ModelView):
     def _year_mask_default(self):
         return pd.Series(np.ones(len(self.model.data), dtype=bool))
 
+    def _all_data_default(self):
+        data = self.model.data.copy()
+        if DATETIME_COL not in data.columns:
+            data[DATETIME_COL] = np.nan
+
+        if MAKE_COL not in data.columns:
+            data[MAKE_COL] = np.nan
+
+        return data
+
     def _filtered_data_default(self):
-        return self.model.data
+        return self.all_data
 
     def _all_years_default(self):
         def parse_year(x):
             return x.split(":")[0] if isinstance(x, str) else "unknown"
 
-        self.model.data['Year'] = self.model.data['DateTime'].apply(parse_year)
-        return sorted(self.model.data['Year'].unique().tolist())
+        self.all_data[YEAR_KEY] = self.all_data['DateTime'].apply(parse_year)
+        return sorted(self.all_data[YEAR_KEY].unique().tolist())
 
 
 if __name__ == '__main__':
