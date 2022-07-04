@@ -15,7 +15,7 @@ from traits.api import (
     List,
     observe,
 )
-from traitsui.api import OKButton, UItem, View
+from traitsui.api import Item, OKButton, View
 
 
 class ImageFile(HasStrictTraits):
@@ -75,7 +75,7 @@ class ImageFile(HasStrictTraits):
 if __name__ == '__main__':
     img = ImageFile()
     view = View(
-        UItem(name='filepath'),
+        Item(name='filepath', show_label=False),
         buttons=[OKButton],
         resizable=True,
         width=640
