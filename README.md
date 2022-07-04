@@ -84,20 +84,6 @@ are able to reach the end goal.
   - step 7: pyface application: background run with traits-futures [OPTIONAL]
   - step 8: 1-click installer
 
-### Detailed outline:
-
-- Stage 2:
-    - 2.0: Introduces a model class to represent image files and operations on
-      them.
-- Stage 3:
-    - 3.0: Introduces GUIs using a simple TraitsUI view
-        - A simple view is constructed by invoking `configure_traits` on the
-          `ImageFile` model.
-        - Separately, a matplotlib window reports detected faces.
-    - 3.1: 
-        - Adds a dedicated model-view for the `ImageFile` model
-        - Uses the `MplFigureEditor` to embed the matplotlib figure inside the
-          TraitsUI view.
 
 ## Contributing
 ### Code structure
