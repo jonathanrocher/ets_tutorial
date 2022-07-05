@@ -3,11 +3,11 @@ from os.path import splitext
 
 # ETS imports
 from traits.api import Instance
-from pyface.api import confirm, error, ImageResource
+from pyface.api import error, ImageResource
+from pyface.action.api import StatusBarManager
 from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
 from pyface.tasks.action.api import DockPaneToggleGroup, SGroup, SMenu, \
-    SMenuBar, SToolBar, TaskWindowAction
-from pyface.tasks.action.task_action import TaskAction
+    SMenuBar, SToolBar, TaskAction, TaskWindowAction
 
 from traits.api import HasStrictTraits, File
 from traitsui.api import Item, View
@@ -81,10 +81,15 @@ class PycasaTask(Task):
 
         active_editor = self.central_pane.active_editor
         model = active_editor.obj
+
+        self.status_bar.messages = ["Scanning..."]
+
         if isinstance(model, ImageFolder):
             model.compute_num_faces()
         else:
             model.detect_faces()
+
+        self.status_bar.messages = ["Scanning complete."]
 
     # Initialization methods --------------------------------------------------
 
@@ -102,7 +107,7 @@ class PycasaTask(Task):
                            accelerator='Ctrl+R',
                            method='scan_current_path',
                            image=ImageResource('zoom-draw')),
-                image_size=(32, 32), show_tool_names=False, id='ToolsBar',
+                image_size=(24, 24), show_tool_names=False, id='ToolsBar',
                 name='ToolsBar'
             ),
         ]
@@ -143,6 +148,9 @@ class PycasaTask(Task):
             )
         )
         return menu_bar
+
+    def _status_bar_default(self):
+        return StatusBarManager(messages=["Welcome to Pycasa"])
 
 
 class PathSelector(HasStrictTraits):
