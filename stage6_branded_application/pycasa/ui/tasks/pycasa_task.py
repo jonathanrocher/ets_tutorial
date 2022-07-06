@@ -100,11 +100,9 @@ class PycasaTask(Task):
         tool_bars = [
             SToolBar(
                 TaskAction(name='Open...',
-                           accelerator='Ctrl+N',
                            method='request_open_new_path',
                            image=ImageResource('document-open')),
                 TaskAction(name='Scan',
-                           accelerator='Ctrl+R',
                            method='scan_current_path',
                            image=ImageResource('zoom-draw')),
                 image_size=(24, 24), show_tool_names=False, id='ToolsBar',
@@ -118,8 +116,9 @@ class PycasaTask(Task):
             SMenu(
                 SGroup(
                     TaskAction(name='Open...',
-                               accelerator='Ctrl+N',
-                               method='request_open_new_path'),
+                               accelerator='Ctrl+O',
+                               method='request_open_new_path',
+                               image=ImageResource('document-open')),
                     id='OpenGroup', name='OpenGroup',
                 ),
                 SGroup(
