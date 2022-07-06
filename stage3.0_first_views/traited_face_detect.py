@@ -27,6 +27,13 @@ class ImageFile(HasStrictTraits):
 
     metadata = Dict
 
+    traits_view = View(
+        Item(name='filepath', show_label=False),
+        buttons=[OKButton],
+        resizable=True,
+        width=640
+    )
+
     def to_array(self):
         if not self.filepath:
             return np.array([])
@@ -74,13 +81,7 @@ class ImageFile(HasStrictTraits):
 
 if __name__ == '__main__':
     img = ImageFile()
-    view = View(
-        Item(name='filepath', show_label=False),
-        buttons=[OKButton],
-        resizable=True,
-        width=640
-    )
-    img.configure_traits(view=view)
+    img.configure_traits()
 
     plt.imshow(img.to_array())
     img_desc = plt.gca()
