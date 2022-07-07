@@ -15,7 +15,7 @@ from matplotlib import patches
 
 image_paths = [
     join("..", "sample_images", "IMG-0311_xmas_2020.JPG"),
-    join("..", "sample_images", "owls.jpg")
+    join("..", "sample_images", "20210802_191429.jpg")
 ]
 
 # Load the trained file from the module root.
