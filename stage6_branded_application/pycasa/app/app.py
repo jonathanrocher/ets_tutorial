@@ -3,6 +3,7 @@
 """
 import logging
 
+from traits.api import Tuple, Int
 from pyface.tasks.api import TasksApplication, TaskFactory
 from pyface.api import SplashScreen
 from pyface.action.api import Action
@@ -46,6 +47,7 @@ class PycasaApplication(TasksApplication):
         layout.items = [self.task_factories[0].id]
         window = self.create_window(layout=layout)
         self.add_window(window)
+        window.title += " {}".format(len(self.windows))
         return window
 
     def create_new_task_menu(self):
