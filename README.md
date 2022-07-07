@@ -97,3 +97,27 @@ Contributing to this repository requires:
 1. to make a Pull Request
 2. all code contributed must be pep8 compliant
 3. all unit tests must pass
+
+
+# Instructor notes: tutorial flow
+
+1. Introduction 20 mins
+    - Purpose and goals of the tutorial
+    - What is ETS? Why pick it to build tools? When to pick it to build tools?
+2. Starting script (10 min)
+3. Traits (30 mins)
+  - 
+  - Simple exercise (10 mins)
+4. Basic TraitsUI (35 mins) 
+  - 
+  - TraitsUI exercise (20 mins)
+5. Pyface basics (20 mins)
+  - Structure and responsibilities, Hello world in pyface
+  - Building panes
+  - Pyface exercise: transform hello world into first app (stage 4, 15 mins)
+6. More Pyface (15 mins)
+  - Cross-pane communication, adding features
+  - Menus, toolbars and branding
+  - Pyface exercise: building a fuller application (stage 5, 20 min)
+7. Packaging into 1 click installer (10 m)
+8. Wrap up and demo of any advanced UIs? (15 min)
