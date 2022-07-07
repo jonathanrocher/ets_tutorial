@@ -51,7 +51,7 @@ using::
     python etstool.py test_all
 
 Currently supported runtime values are ``3.6``, and currently
-supported toolkits are ``null``, ``pyqt5``, ``pyside2`` and ``wx``.
+supported toolkits are ``null``, ``pyqt5``, ``pyside2``.
 Not all combinations of toolkits and runtimes will work, but the tasks will
 fail with a clear error if that is the case.
 
@@ -101,7 +101,7 @@ from tempfile import mkdtemp
 import click
 
 supported_combinations = {
-    '3.6': {'pyside2', 'pyside6', 'pyqt5', 'pyqt6', 'wx', 'null'},
+    '3.6': {'pyside2', 'pyside6', 'pyqt5', 'pyqt6', 'null'},
 }
 
 # Default Python version to use in the commands below if none is specified.
@@ -116,6 +116,7 @@ dependencies = {
     "matplotlib",
     "pandas",
     "pillow",
+    "pyface",
     "pyqt5",
     "scikits.image",
     "traits",
@@ -130,70 +131,14 @@ source_dependencies = {
     "traits": "git+http://github.com/enthought/traits.git#egg=traits",
 }
 
-# # The following should match extras_require in setup.py but with package
-# # names compatible with EDM
-# extra_dependencies = {
-#     'pyside2': {
-#         'pygments',
-#     },
-#     'pyside6': {
-#         'pygments',
-#     },
-#     'pyqt5': {
-#         'pyqt5',
-#         'pygments',
-#     },
-#     'pyqt6': {
-#         'pygments',
-#     },
-#     # XXX once wxPython 4 is available in EDM, we will want it here
-#     'wx': {
-#         'numpy',
-#     },
-#     'null': set(),
-#     # Toolkit-independent dependencies for demo testing.
-#     'examples': {
-#         'apptools',
-#         'chaco',
-#         'h5py',
-#         'numpy',
-#         'pandas',
-#         'pytables',
-#     },
-#     # Optional dependencies for some editors
-#     'editors': {
-#         'numpy',
-#         'pandas',
-#         'pillow',
-#     },
-#     # Test dependencies also applied to installation from PYPI
-#     'test': {
-#         'packaging',
-#     },
-# }
-
-# Dependencies for CI jobs using this file.
 ci_dependencies = {
     "coverage",
     "flake8",
     "flake8_ets",
 }
 
-# doc_dependencies = {
-#     "sphinx",
-#     "enthought_sphinx_theme",
-#     "pyface",
-# }
-
-#: Paths to ignore in Sphinx-apidoc
-# doc_ignore = {
-#     "traitsui/qt4/*",
-#     "traitsui/wx/*",
-#     "*/tests",
-# }
-
 environment_vars = {
-    # 'pyside2': {'ETS_TOOLKIT': 'qt', 'QT_API': 'pyside2'},
+    'pyside2': {'ETS_TOOLKIT': 'qt', 'QT_API': 'pyside2'},
     # 'pyside6': {'ETS_TOOLKIT': 'qt', 'QT_API': 'pyside6'},
     'pyqt5': {"ETS_TOOLKIT": "qt", "QT_API": "pyqt5"},
     # 'pyqt6': {"ETS_TOOLKIT": "qt", "QT_API": "pyqt6"},
@@ -237,8 +182,7 @@ def cli():
     default=False,
     help="Install main package in 'editable' mode?  [default: --not-editable]",
 )
-@click.option('--source/--no-source', default=False)
-def install(runtime, toolkit, environment, editable, source):
+def build(runtime, toolkit, environment, editable):
     """Install project and dependencies into a clean EDM environment."""
     parameters = get_parameters(runtime, toolkit, environment)
     packages = (dependencies | ci_dependencies)
@@ -257,11 +201,7 @@ def install(runtime, toolkit, environment, editable, source):
         ]
     )
 
-    # pip install pyqt5, pyqt6, pyside2 and pyside6, because we don't have them
-    # in EDM yet
-    if toolkit == 'pyside2':
-        commands.append("edm run -e {environment} -- pip install pyside2")
-    elif toolkit == 'pyqt6':
+    if toolkit == 'pyqt6':
         commands.append("edm run -e {environment} -- pip install pyqt6")
     elif toolkit == 'pyside6':
         # On Linux and macOS, some versions of PySide6 between 6.2.2 and 6.3.0
@@ -273,39 +213,9 @@ def install(runtime, toolkit, environment, editable, source):
                 "edm run -e {environment} -- pip install pyside6<6.2.2")
         else:
             commands.append("edm run -e {environment} -- pip install pyside6")
-    elif toolkit == 'wx':
-        if sys.platform != 'linux':
-            commands.append("edm run -e {environment} -- pip install wxPython")
-        else:
-            # XXX this is mainly for TravisCI workers; need a generic solution
-            commands.append(
-                "edm run -e {environment} -- pip install -f "
-                "https://extras.wxpython.org/wxPython4/extras/linux/gtk3"
-                "/ubuntu-16.04/ wxPython"
-            )
 
     click.echo("Creating environment '{environment}'".format(**parameters))
     execute(commands, parameters)
-
-    if source:
-        cmd_fmt = (
-            "edm plumbing remove-package --environment {environment} --force "
-        )
-        commands = [
-            cmd_fmt + dependency for dependency in source_dependencies.keys()
-        ]
-        execute(commands, parameters)
-        source_pkgs = source_dependencies.values()
-        # Without the --no-dependencies flag such that new dependencies on
-        # main branch are brought in.
-        commands = [
-            "python -m pip install --force-reinstall {pkg}".format(pkg=pkg)
-            for pkg in source_pkgs
-        ]
-        commands = [
-            "edm run -e {environment} -- " + command for command in commands
-        ]
-        execute(commands, parameters)
 
     # Always install local source again with no dependencies
     # to mitigate risk of testing against a distributed release.
@@ -392,7 +302,7 @@ def test_clean(runtime, toolkit):
     """Run tests in a clean environment, cleaning up afterwards"""
     args = ['--toolkit={}'.format(toolkit), '--runtime={}'.format(runtime)]
     try:
-        install(args=args, standalone_mode=False)
+        build(args=args, standalone_mode=False)
         test(args=args, standalone_mode=False)
     finally:
         cleanup(args=args, standalone_mode=False)
@@ -409,59 +319,6 @@ def update(runtime, toolkit, environment):
     click.echo("Re-installing in  '{environment}'".format(**parameters))
     execute(commands, parameters)
     click.echo('Done update')
-
-
-# @cli.command()
-# @click.option('--runtime', default=DEFAULT_RUNTIME)
-# @click.option('--toolkit', default=DEFAULT_TOOLKIT)
-# @click.option('--environment', default=None)
-# def docs(runtime, toolkit, environment):
-#     """Autogenerate documentation"""
-#     parameters = get_parameters(runtime, toolkit, environment)
-#     packages = ' '.join(doc_dependencies)
-#     ignore = " ".join(doc_ignore)
-#     commands = [
-#         "edm install -y -e {environment} " + packages,
-#     ]
-#     click.echo(
-#         "Installing documentation tools in  '{environment}'".format(
-#             **parameters
-#         )
-#     )
-#     execute(commands, parameters)
-#     click.echo('Done installing documentation tools')
-#
-#     click.echo(
-#         "Regenerating API docs in  '{environment}'".format(**parameters)
-#     )
-#     output_path = os.path.join("docs", "source", "api")
-#     if not os.path.exists(output_path):
-#         os.makedirs(output_path)
-#     commands = [
-#         "edm run -e {environment} -- sphinx-apidoc "
-#         "-e "
-#         "-M "
-#         "--no-toc "
-#         "-o " + output_path + " traitsui " + ignore
-#     ]
-#     execute(commands, parameters)
-#     click.echo("Done regenerating API docs")
-#
-#     os.chdir('docs')
-#     command = (
-#         "edm run -e {environment} -- sphinx-build -b html "
-#         "-d build/doctrees "
-#         "source "
-#         "build/html"
-#     )
-#     click.echo(
-#         "Building documentation in  '{environment}'".format(**parameters)
-#     )
-#     try:
-#         execute([command], parameters)
-#     finally:
-#         os.chdir('..')
-#     click.echo('Done building documentation')
 
 
 @cli.command()
@@ -504,109 +361,6 @@ def flake8(runtime, toolkit, environment, strict):
         "--exclude=build" + config,
     ]
     execute(commands, parameters)
-
-
-@cli.group("changelog")
-@click.pass_context
-def changelog(ctx):
-    """Group of commands related to creating changelog."""
-
-    ctx.obj = {
-        # Mapping from news fragment type to their description in
-        # the changelog.
-        "type_to_description": {
-            "feature": "Features",
-            "bugfix": "Fixes",
-            "deprecation": "Deprecations",
-            "removal": "Removals",
-            "doc": "Documentation changes",
-            "test": "Test suite",
-            "build": "Build System",
-        }
-    }
-
-
-@changelog.command("create")
-@click.pass_context
-def create_news_fragment(ctx):
-    """Create a news fragment for your PR."""
-
-    pr_number = click.prompt('Please enter the PR number', type=int)
-    type_ = click.prompt(
-        "Choose a fragment type:",
-        type=click.Choice(ctx.obj["type_to_description"]),
-    )
-
-    filepath = os.path.join(NEWS_FRAGMENT_DIR, f"{pr_number}.{type_}.rst")
-
-    if os.path.exists(filepath):
-        click.echo("FAILED: File {} already exists.".format(filepath))
-        ctx.exit(1)
-
-    content = click.prompt(
-        "Describe the changes to the END USERS.\n"
-        "Example: 'Remove subpackage xyz.'\n",
-        type=str,
-    )
-    if not os.path.exists(NEWS_FRAGMENT_DIR):
-        os.makedirs(NEWS_FRAGMENT_DIR)
-    with open(filepath, "w", encoding="utf-8") as fp:
-        fp.write(content + f" (#{pr_number})")
-
-    click.echo("Please commit the file created at: {}".format(filepath))
-
-
-@changelog.command("build")
-@click.pass_context
-def build_changelog(ctx):
-    """Build Changelog created from all the news fragments."""
-    # This is a rather simple first-cut generation of the changelog.
-    # It removes the laborious concatenation, but the end results might
-    # still require some tweaking.
-    contents = []
-
-    # Collect news fragment files as we go, and then optionally remove them.
-    handled_file_paths = []
-
-    for type_, description in ctx.obj["type_to_description"].items():
-        pattern = os.path.join(NEWS_FRAGMENT_DIR, f"*.{type_}.rst")
-        file_paths = sorted(glob.glob(pattern))
-
-        if file_paths:
-            contents.append("")
-            contents.append(description)
-            contents.append("-" * len(description))
-
-        for filename in file_paths:
-            with open(filename, "r", encoding="utf-8") as fp:
-                contents.append("* " + fp.read())
-            handled_file_paths.append(filename)
-
-    # Prepend content to the changelog file.
-
-    with open(CHANGELOG_PATH, "r", encoding="utf-8") as fp:
-        original_changelog = fp.read()
-
-    with open(CHANGELOG_PATH, "w", encoding="utf-8") as fp:
-        if contents:
-            print(*contents, sep="\n", file=fp)
-        fp.write(original_changelog)
-
-    click.echo(f"Changelog is updated. Please review it at {CHANGELOG_PATH}")
-
-    # Optionally clean up collected news fragments.
-    should_clean = click.confirm("Do you want to remove the news fragments?")
-    if should_clean:
-        for file_path in handled_file_paths:
-            os.remove(file_path)
-
-        # Report any leftover for developers to inspect.
-        leftovers = sorted(glob.glob(os.path.join(NEWS_FRAGMENT_DIR, "*")))
-        if leftovers:
-            click.echo("These files are not collected:")
-            click.echo("\n  ".join([""] + leftovers))
-
-    click.echo("Done")
 
 
 # ----------------------------------------------------------------------------

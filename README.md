@@ -37,7 +37,7 @@ open a `Terminal`/`Powershell`/`Cmd Prompt`/ and navigate to the folder
 where the repo was cloned. Enter the following command to create a 
 dedicated Python environment and install all dependencies in it:
 ```commandline
-python ci install
+python ci build
 ```
 
 ### Conda users
