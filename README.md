@@ -32,17 +32,12 @@ git clone git@github.com:jonathanrocher/ets_tutorial.git
 - traitsui
 
 ### EDM users (recommended)
-First, download and install EDM from https://www.enthought.com/edm/. Then, run 
-the following in `Terminal`/`Powershell`/`Cmd Prompt`/... to create a dedicated 
-Python environment and install all dependencies in it:
+First, download and install EDM from https://www.enthought.com/edm/. Then, 
+open a `Terminal`/`Powershell`/`Cmd Prompt`/ and navigate to the folder 
+where the repo was cloned. Enter the following command to create a 
+dedicated Python environment and install all dependencies in it:
 ```commandline
-edm env create ets_tutorial
-edm shell -e ets_tutorial
-edm install pandas matplotlib traits traitsui scikits.image pillow pyqt5 ipython
-```
-
-```commandline
-python etstool.py build
+python ci build
 ```
 
 ### Conda users
