@@ -109,7 +109,8 @@ Contributing to this repository requires:
   - 
   - Simple exercise (10 mins)
 4. Basic TraitsUI (35 mins) 
-  - 
+  - Introduction to TraitsUI views
+  - The MVC paradigm
   - TraitsUI exercise (20 mins)
 5. Pyface basics (20 mins)
   - Structure and responsibilities, Hello world in pyface
