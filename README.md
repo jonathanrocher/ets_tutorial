@@ -53,10 +53,10 @@ edm shell -e ets_tutorial
 Create a new conda environment called `ets_tutorial` and install local
 dependencies with the following commands:
 ```commandline
-conda create -n ets_tutorial python=3.6 pandas matplotlib traits traitsui
-scikit-image pillow pyqt ipython importlib_resources importlib_metadata
+conda create -n ets_tutorial python=3.6 pandas matplotlib traits traitsui scikit-image pillow pyqt ipython importlib_resources importlib_metadata
 python setup.py install
 ```
+Activate the new environment with `conda activate ets_tutorial`.
 
 ### pip users
 Assuming a Python environment is created and activated on your machine, for 
