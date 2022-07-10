@@ -18,31 +18,28 @@ class TestImageFile(TestCase):
     def test_no_image_file(self):
         img = ImageFile()
         self.assertEqual(img.metadata, {})
-        data = img.to_array()
-        self.assertIsInstance(data, np.ndarray)
-        self.assertEqual(data.shape, (0,))
+        self.assertIsInstance(img.data, np.ndarray)
+        self.assertEqual(img.data.shape, (0,))
 
     def test_bad_type_image_file(self):
         img = ImageFile(filepath=__file__)
         self.assertEqual(img.metadata, {})
-        data = img.to_array()
-        self.assertIsInstance(data, np.ndarray)
-        self.assertEqual(data.shape, (0,))
+        self.assertIsInstance(img.data, np.ndarray)
+        self.assertEqual(img.data.shape, (0,))
 
     def test_image_metadata(self):
         img = ImageFile(filepath=SAMPLE_IMG1)
         self.assertNotEqual(img.metadata, {})
         for key in ['ExifVersion', 'ExifImageWidth', 'ExifImageHeight']:
             self.assertIn(key, img.metadata.keys())
-        data = img.to_array()
         expected_shape = (img.metadata['ExifImageHeight'],
                           img.metadata['ExifImageWidth'], 3)
-        self.assertEqual(data.shape, expected_shape)
+        self.assertEqual(img.data.shape, expected_shape)
 
     def test_image_data(self):
         img = ImageFile(filepath=SAMPLE_IMG1)
         self.assertNotIn(0, img.data.shape)
-        np.testing.assert_almost_equal(img.data, img.to_array())
+        np.testing.assert_almost_equal(img.data, img.data)
         self.assertIsInstance(img.data, np.ndarray)
         self.assertNotEqual(img.data.mean(), 0)
 
