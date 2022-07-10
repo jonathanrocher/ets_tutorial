@@ -7,7 +7,7 @@ jupyter:
       format_version: '1.3'
       jupytext_version: 1.13.7
   kernelspec:
-    display_name: Python 3 (ipykernel)
+    display_name: Python 3
     language: python
     name: python3
 ---
@@ -19,6 +19,27 @@ jupyter:
 
 **SciPy 2022**
 
+<!-- #endregion -->
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Preliminaries
+
+If you haven't already:
+- Clone the repository: https://github.com/jonathanrocher/ets_tutorial
+- Install packages:
+    - Using Enthought Deployment Manager (recommended)
+      (https://www.enthought.com/edm):
+    
+       ```bash
+       edm envs create bootstrap
+       edm install --environment bootstrap click
+       edm run -e bootstrap -- python ci build --environment ets_tutorial
+       ```
+    - `ets_tutorial` will be our working Python environment. To activate:
+      ```bash
+      edm shell -e ets_tutorial
+      ```
+    - Follow instructions in README for conda and pip
 <!-- #endregion -->
 
 
