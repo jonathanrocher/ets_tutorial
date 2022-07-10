@@ -1,7 +1,6 @@
 import matplotlib
 from matplotlib.backends.backend_qt5agg import (
-    FigureCanvasQTAgg as FigureCanvas,
-    NavigationToolbar2QT as NavigationToolbar
+        FigureCanvasQTAgg, NavigationToolbar2QT
 )
 from pyface.qt import QtGui
 from traitsui.api import BasicEditorFactory
@@ -15,21 +14,34 @@ class _MplFigureEditor(Editor):
     scrollable = True
 
     def init(self, parent):
+        """Create and initialize the underlying toolkit widget.
+        """
         self.set_tooltip()
-        self.control = self._create_mpl_canvas(parent)
+        self.control = QtGui.QWidget()
+        self.control.setLayout(QtGui.QVBoxLayout())
+        self._do_layout()
 
     def update_editor(self):
-        pass
+        """Updates the editor when the value changes externally to the editor.
+        """
+        self.clear_layout()
+        self._do_layout()
 
-    def _create_mpl_canvas(self, parent):
-        control = QtGui.QWidget()
-        canvas = FigureCanvas(figure=self.value)
-        toolbar = NavigationToolbar(canvas, control)
-        layout = QtGui.QVBoxLayout()
+    def _do_layout(self):
+        """Creates sub-widgets and does layout.
+        """
+        if not self.value:
+            return
+        canvas = FigureCanvasQTAgg(figure=self.value)
+        # Allow the figure canvas to expand and shrink with the main widget.
+        canvas.setSizePolicy(
+            QtGui.QSizePolicy.Policy.Expanding,
+            QtGui.QSizePolicy.Policy.Expanding,
+        )
+        toolbar = NavigationToolbar2QT(canvas, self.control)
+        layout = self.control.layout()
         layout.addWidget(toolbar)
         layout.addWidget(canvas)
-        control.setLayout(layout)
-        return control
 
 
 class MplFigureEditor(BasicEditorFactory):
