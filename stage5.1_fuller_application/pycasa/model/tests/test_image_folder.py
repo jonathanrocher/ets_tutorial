@@ -1,7 +1,7 @@
 from os.path import dirname, join, split
 import unittest
 
-from pycasa.model.image_folder import ImageFolder
+from pycasa.model.image_folder import FILENAME_COL, ImageFolder
 
 import ets_tutorial
 
@@ -24,8 +24,8 @@ class TestImageFolder(unittest.TestCase):
             set(self.filenames)
         )
 
-    def test_create_metadata_df(self):
-        df = self.img_folder.create_metadata_df()
-        self.assertEqual(set(df.index), set(self.filenames))
+    def test_data_correct(self):
+        df = self.img_folder.data
+        self.assertEqual(set(df[FILENAME_COL]), set(self.filenames))
         self.assertIn("ExifVersion", df)
         self.assertIn("ApertureValue", df)

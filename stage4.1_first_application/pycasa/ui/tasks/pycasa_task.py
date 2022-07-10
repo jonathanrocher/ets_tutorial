@@ -7,10 +7,8 @@ from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
 
 # Local imports
 from .pycasa_browser_pane import PycasaBrowserPane
-from ...model.image_file import ImageFile
+from ...model.image_file import ImageFile, SUPPORTED_FORMATS
 from ..image_file_editor import ImageFileEditor
-
-SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg"]
 
 
 class PycasaTask(Task):

@@ -17,5 +17,5 @@ class TestImageFolderView(unittest.TestCase):
         view = ImageFolderView(model=ImageFolder(directory=SAMPLE_IMG_DIR))
         tester = UITester()
         with tester.create_ui(view) as ui:
-            df = tester.find_by_name(ui, "metadata_df")
+            df = tester.find_by_name(ui, "data")
             df.inspect(IsVisible())

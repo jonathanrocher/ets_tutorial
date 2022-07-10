@@ -54,7 +54,7 @@ class ImageFolderView(ModelView):
 
     def traits_view(self):
         view = View(
-            Item("model.path", style="readonly", show_label=False),
+            Item("model.directory", style="readonly", show_label=False),
             HGroup(
                 Spring(),
                 Item("view_filter_controls"),

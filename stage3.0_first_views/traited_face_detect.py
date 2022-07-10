@@ -15,7 +15,7 @@ from traits.api import (
 )
 from traitsui.api import Item, OKButton, View
 
-SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg"]
+SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]
 
 
 class ImageFile(HasStrictTraits):

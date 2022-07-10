@@ -1,5 +1,7 @@
-from traits.api import cached_property, Instance, Property
-from traitsui.api import Item, ModelView, View
+from traits.api import Instance
+from traitsui.api import (
+    HGroup, Item, Label, ModelView, Spring, View
+)
 from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 
 from pycasa.model.image_folder import ImageFolder
@@ -15,22 +17,22 @@ class ImageFolderView(ModelView):
     """
     model = Instance(ImageFolder)
 
-    metadata_df = Property(depends_on="model.images.items")
-
     view = View(
         Item('model.directory', style="readonly", show_label=False),
         Item(
-            'metadata_df',
-            editor=DataFrameEditor(columns=DISPLAYED_COLUMNS),
+            'model.data',
+            editor=DataFrameEditor(),
             show_label=False,
-            width=1200,
+            visible_when="len(model.data) > 0",
+        ),
+        HGroup(
+            Spring(),
+            Label("No images found. No data to show"),
+            Spring(),
+            visible_when="len(model.data) == 0",
         ),
         resizable=True
     )
-
-    @cached_property
-    def _get_metadata_df(self):
-        return self.model.create_metadata_df()
 
 
 if __name__ == '__main__':

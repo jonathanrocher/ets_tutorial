@@ -18,7 +18,7 @@ from traitsui.api import Item, ModelView, OKButton, View
 # Local imports
 from ets_tutorial.util.mpl_figure_editor import MplFigureEditor
 
-SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg"]
+SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]
 
 
 class ImageFile(HasStrictTraits):

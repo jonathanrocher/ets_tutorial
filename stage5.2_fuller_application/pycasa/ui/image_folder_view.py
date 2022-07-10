@@ -16,9 +16,12 @@ class ImageFolderView(ModelView):
     scan = Button("Scan for faces...")
 
     view = View(
-        Item("model.path", style="readonly", show_label=False),
-        Item("model.data", editor=DataFrameEditor(update="data_updated"),
-             show_label=False, visible_when="len(model.data) > 0"),
+        Item("model.directory", style="readonly", show_label=False),
+        Item(
+            "model.data",
+            editor=DataFrameEditor(update="data_updated"),
+            show_label=False,
+            visible_when="len(model.data) > 0"),
         HGroup(
             Spring(),
             Label("No images found. No data to show"),

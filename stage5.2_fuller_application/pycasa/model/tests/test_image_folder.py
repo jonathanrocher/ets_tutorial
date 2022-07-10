@@ -17,21 +17,19 @@ HERE = dirname(__file__)
 class TestImageFolder(TestCase):
     def test_no_folder(self):
         with self.assertRaises(ValueError):
-            ImageFolder()
+            ImageFolder(directory="path/to/nonexistent/dir")
 
     def test_with_file(self):
         with self.assertRaises(ValueError):
-            ImageFolder(path=__file__)
+            ImageFolder(directory=__file__)
 
     def test_empty_folder(self):
-        img = ImageFolder(path=HERE)
-        data = img.to_dataframe()
-        self.assertIsInstance(data, pd.DataFrame)
-        self.assertEqual(len(data), 0)
+        img_folder = ImageFolder(directory=HERE)
+        self.assertIsInstance(img_folder.data, pd.DataFrame)
+        self.assertEqual(len(img_folder.data), 0)
 
     def test_real_folder(self):
-        img = ImageFolder(path=SAMPLE_IMG_DIR)
-        data = img.to_dataframe()
-        self.assertEqual(len(data), 2)
+        img_folder = ImageFolder(directory=SAMPLE_IMG_DIR)
+        self.assertEqual(len(img_folder.data), 2)
         for key in ['ExifVersion', 'ExifImageWidth', 'ExifImageHeight']:
-            self.assertIn(key, data.columns)
+            self.assertIn(key, img_folder.data.columns)

@@ -15,7 +15,7 @@ from traits.api import (
     Array, cached_property, Dict, File, HasStrictTraits, List, Property
 )
 
-SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg"]
+SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]
 
 
 class ImageFile(HasStrictTraits):
