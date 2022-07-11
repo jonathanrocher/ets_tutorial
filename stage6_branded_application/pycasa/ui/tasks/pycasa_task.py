@@ -10,7 +10,7 @@ from pyface.tasks.action.api import DockPaneToggleGroup, SGroup, SMenu, \
     SMenuBar, SToolBar, TaskAction, TaskWindowAction
 
 from traits.api import HasStrictTraits, File
-from traitsui.api import Item, View
+from traitsui.api import Item, OKCancelButtons, View
 from pycasa.ui.image_resources import app_icon
 
 # Local imports
@@ -157,4 +157,6 @@ class PathSelector(HasStrictTraits):
 
     view = View(Item("filepath"),
                 resizable=True,
-                icon=app_icon)
+                icon=app_icon,
+                width=400, height=200,
+                buttons=OKCancelButtons)
