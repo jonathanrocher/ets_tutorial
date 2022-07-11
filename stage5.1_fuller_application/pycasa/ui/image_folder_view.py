@@ -4,11 +4,14 @@ from traitsui.api import (
 )
 from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 
-from pycasa.model.image_folder import ImageFolder
+# Local imports
+from pycasa.model.image_folder import FILENAME_COL, ImageFolder, NUM_FACE_COL
 
-DISPLAYED_COLUMNS = [
+DISPLAYED_COLUMNS = [FILENAME_COL, NUM_FACE_COL] + [
     'ApertureValue', 'ExifVersion', 'Model', 'Make', 'LensModel', 'DateTime',
-    'ShutterSpeedValue', 'XResolution', 'YResolution'
+    'ShutterSpeedValue', 'ExposureTime', 'XResolution', 'YResolution',
+    'Orientation', 'GPSInfo', 'DigitalZoomRatio', 'FocalLengthIn35mmFilm',
+    'ISOSpeedRatings', 'SceneType'
 ]
 
 
@@ -21,7 +24,7 @@ class ImageFolderView(ModelView):
         Item('model.directory', style="readonly", show_label=False),
         Item(
             'model.data',
-            editor=DataFrameEditor(),
+            editor=DataFrameEditor(columns=DISPLAYED_COLUMNS),
             show_label=False,
             visible_when="len(model.data) > 0",
         ),
