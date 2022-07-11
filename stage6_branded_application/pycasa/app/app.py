@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class PycasaApplication(TasksApplication):
-    """ An application to say hello.
+    """ An application to explore image files and detect faces.
     """
     id = "pycasa_application"
 
