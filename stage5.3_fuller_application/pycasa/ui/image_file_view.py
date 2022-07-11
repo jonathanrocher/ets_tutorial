@@ -37,7 +37,8 @@ class ImageFileView(ModelView):
         axes.imshow(self.model.data)
         self.figure = figure
 
-    def _detect_button_fired(self):
+    @observe("detect_button")
+    def _detect_button_fired(self, event):
         self.model.detect_faces()
 
     @observe("model.faces")
