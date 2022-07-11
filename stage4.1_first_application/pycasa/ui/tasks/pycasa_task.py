@@ -50,4 +50,4 @@ class PycasaTask(Task):
             obj = ImageFile(filepath=filepath)
             self.central_pane.edit(obj, factory=ImageFileEditor)
         else:
-            print("Unsupported file format: {}".format(file_ext))
+            print("Unsupported file format: '{}'".format(file_ext))
