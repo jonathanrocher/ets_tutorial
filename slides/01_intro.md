@@ -29,7 +29,7 @@ If you haven't already:
 - Install packages:
     - Using Enthought Deployment Manager (recommended)
       (https://www.enthought.com/edm):
-    
+
        ```bash
        edm envs create bootstrap
        edm install --environment bootstrap click
@@ -125,12 +125,12 @@ XXX Screenshot of final application
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Schedule
 
-- Step 0: Python script
-- Step 1: Using Traits.
-- Step 2: Basic GUI using TraitsUI
-- Step 3: PyFace application: tree navigator
-- Step 4: More features
-- Step 5: Installer
+- Step 1: Python script
+- Step 2: Using Traits.
+- Step 3: Basic GUI using TraitsUI
+- Step 4: PyFace application: tree navigator
+- Step 5: More features
+- Step 6: Installer
 
 
 <!-- #endregion -->

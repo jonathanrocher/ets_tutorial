@@ -41,7 +41,7 @@ jupyter:
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Why all this?
 
-- No pain, no gain!
+- No pain, no gain! (Only a little pain, we promise!)
 
 - Small change to thinking yields big benefits
 
@@ -181,7 +181,7 @@ class Child(HasStrictTraits):
 
     @observe('father.last_name')
     def _dad_name_updated(self, event):
-        print('DAD name', self.father.last_name)
+        print(Father name changed to', self.father.last_name)
 
 ```
 
@@ -194,25 +194,11 @@ c = Child(father=Parent)
 dad.last_name = 'Valderrama'
 ```
 
-```python
-def handler(event):
-    print("handler", event.object, event.name, event.old, event.new)
-```
-
-```python
-c = Child(father=Parent(last_name='Ram'))
-c.observe(handler, 'father, age')
-```
-
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Trait change notification
 
 - Static: `def _<trait_name>_changed()`
 - Decorator: `@observe('extended.trait.name')`
-- Dynamic:
-
-```obj.observe(handler, 'extended.trait.name')
-```
 
 - See documentation: https://docs.enthought.com/traits/traits_user_manual/notification.html
 
@@ -245,8 +231,8 @@ class Child(HasStrictTraits):
     age = Int
     father = Instance(Parent)
     first_name = Str('')
-    alive = Bool(True)
-    gender = Enum('female', 'male', 'neither')
+    likes_queso = Bool(True)
+    handedness = Enum('right', 'left')
 
     def _age_changed(self, old, new):
         print('Age changed from %s to %s ' % (old, new))
@@ -259,8 +245,62 @@ class Child(HasStrictTraits):
 
 ```python
 p = Parent(last_name='Ray')
-c = Child(age=21, father=p, first_name='Romano', gender='male')
+c = Child(age=21, father=p, first_name='Romano', handedness='right')
 ```
+
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Trait change event
+
+- Recall this
+<!-- #endregion -->
+
+```python
+    @observe('father.last_name')
+    def _dad_name_updated(self, event):
+        print('Dad name', self.father.last_name)
+```
+
+- `event` is a `TraitChangeEvent` instance
+
+
+```python slideshow={"slide_type": "slide"}
+class Child(HasStrictTraits):
+    age = Int
+    father = Instance(Parent)
+    first_name = Str('')
+    likes_queso = Bool(True)
+    handedness = Enum('right', 'left')
+
+    def _age_changed(self, old, new):
+        print('Age changed from %s to %s ' % (old, new))
+
+    @observe('father.last_name')
+    def _dad_name_updated(self, event):
+        print(event.object, event.name, event.old, event.new)
+        print('Dad name', self.father.last_name)
+
+```
+
+```python
+p = Parent(last_name='Ray')
+c = Child(age=21, father=p, first_name='Romano', handedness='right')
+```
+
+```python
+p.last_name = 'Ahmed'
+```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Other Trait Events
+
+- Advanced, for other kind of traits
+- `List` trait changes: `ListChangeEvent`
+- `Dict` trait changes: `DictChangeEvent`
+- `Set` trait changes: `SetChangeEvent`
+
+<!-- #endregion -->
+
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Setting default values
@@ -280,7 +320,7 @@ class Thing(HasStrictTraits):
     date = Date()
     age = Int(12)
 
-    def _date_default(self):
+    def _date_default(self):slideshow={"slide_type": "slide"}
         print('default')
         return datetime.datetime.today()
 ```
@@ -293,77 +333,6 @@ t = Thing()
 ```python
 type(c.age)
 ```
-
-<!-- #region slideshow={"slide_type": "slide"} -->
-## Trait Lists
-
-
-<!-- #endregion -->
-
-```python
-from traits.api import List
-
-class Bowl(HasStrictTraits):
-    fruits = List(Str)
-
-    def _fruits_changed(self, o, n):
-        print("Fruits changed", o, n)
-
-```
-
-```python
-b = Bowl()
-b.fruits = ['apple']
-b.fruits.append('mango')
-```
-
-<!-- #region slideshow={"slide_type": "slide"} -->
-## Trait List events
-
-<!-- #endregion -->
-
-```python
-class Bowl(HasStrictTraits):
-    fruits = List(Str)
-    def _fruits_changed(self, o, n):
-        print("Fruits changed", o, n)
-
-    def _fruits_items_changed(self, list_event):
-        print(list_event.index)
-        print(list_event.removed)
-        print(list_event.added)
-
-```
-
-```python
-b = Bowl()
-b.fruits = ['apple']
-b.fruits.append('mango')
-```
-
-```python
-def handler(event):
-    print("h:", event)
-
-b.observe(handler, 'fruits.items')
-b.fruits.append('peach')
-```
-
-```python
-# Remove the handler
-b.observe(handler, 'fruits.items', remove=True)
-```
-
-
-<!-- #region slideshow={"slide_type": "slide"} -->
-## Other events
-
-- `TraitChangeEvent`
-- `ListChangeEvent`
-- `DictChangeEvent`
-- `SetChangeEvent`
-
-<!-- #endregion -->
 
 
 

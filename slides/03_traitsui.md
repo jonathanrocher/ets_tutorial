@@ -61,7 +61,7 @@ jupyter:
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## MVC with traitsui
 
-- Model: `HasTraits` object
+- Model: `HasStrictTraits` object
 - View: `traitsui`,  `View` class
 - Controller: `traitsui` `Handler` class
 
@@ -82,12 +82,12 @@ jupyter:
 <!-- #endregion -->
 
 ```python
-from traits.api import HasTraits, Int, Str, Enum
+from traits.api import HasStrictTraits, Int, Str, Enum
 
-class Person(HasTraits):
+class Person(HasStrictTraits):
     name = Str()
     age = Int()
-    gender = Enum('female', 'male', 'other')
+    handedness = Enum('left', 'right')
 
 ```
 
@@ -111,7 +111,7 @@ from traitsui.api import Item, View
 view1 = View(
     Item(name='name', style='readonly'),
     Item(name='age'),
-    Item(name='gender', visible_when='age > 10'),
+    Item(name=handedness', visible_when='age > 10'),
 )
 ```
 
@@ -155,7 +155,7 @@ p.edit_traits(view=view1)
 ```python
 from traitsui.api import Group
 
-class Person(HasTraits):
+class Person(HasStrictTraits):
     name = Str()
     age = Int()
     gender = Enum('female', 'male', 'other')
@@ -188,7 +188,7 @@ p.edit_traits()
 - `icon`/`image`
 - `resizable`
 - `scrollable`
-- `title`
+- `title`: name of the window
 - `buttons`
 - `key_bindings`
 - See docs for more: https://docs.enthought.com/traitsui/traitsui_user_manual/
@@ -202,7 +202,7 @@ p.edit_traits()
 ```python
 from traitsui.api import CancelButton, OKButton
 
-class Person(HasTraits):
+class Person(HasStrictTraits):
     name = Str()
     age = Int()
     gender = Enum('female', 'male', 'other')
