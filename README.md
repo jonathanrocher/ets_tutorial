@@ -102,6 +102,7 @@ Contributing to this repository requires:
 # Instructor notes: tutorial flow
 
 1. Introduction 20 mins
+    - Review development environment setup
     - Purpose and goals of the tutorial
     - What is ETS? Why pick it to build tools? When to pick it to build tools?
 2. Starting script (10 min)
@@ -113,12 +114,14 @@ Contributing to this repository requires:
   - The MVC paradigm
   - TraitsUI exercise (20 mins)
 5. Pyface basics (20 mins)
-  - Structure and responsibilities, Hello world in pyface
-  - Building panes
+  - Structure and responsibilities, "Hello world" in pyface
+  - Building first panes
+  - `Task` and `Pane` important attributes and methods
   - Pyface exercise: transform hello world into first app (stage 4, 15 mins)
 6. More Pyface (15 mins)
-  - Cross-pane communication, adding features
+  - Pyface application folder structure for scalability
+  - `Application` important attributes and methods
   - Menus, toolbars and branding
-  - Pyface exercise: building a fuller application (stage 5, 20 min)
+  - Pyface exercise: building a fuller application (stage 5-6, 20 min)
 7. Packaging into 1 click installer (10 m)
 8. Wrap up and demo of any advanced UIs? (15 min)
