@@ -78,6 +78,7 @@ class PycasaTask(Task):
             msg = "No active tab/path. You must open a path before you can " \
                   "scan it for faces"
             error(None, msg)
+            return
 
         active_editor = self.central_pane.active_editor
         model = active_editor.obj
