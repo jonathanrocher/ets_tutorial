@@ -138,7 +138,7 @@ If you haven't already:
 
 Screenshot of final application
 
-<img src="images/" height="90%" width="90%" align="center"/>
+<img src="../pycasa_final.png" height="90%" width="90%" align="center"/>
 
 <!-- #endregion -->
 
