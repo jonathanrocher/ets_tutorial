@@ -66,5 +66,4 @@ class PycasaApplication(TasksApplication):
                            path="MenuBar/File/OpenGroup",
                            absolute_position="first")
         ]
-        return super(PycasaApplication, self)._extra_actions_default() + \
-            extra_actions
+        return extra_actions
