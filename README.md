@@ -69,7 +69,7 @@ Activate the new environment with `conda activate ets_tutorial`.
 Assuming a Python environment is created and activated on your machine, for 
 example from https://www.python.org/, 
 ```commandline
-pip install pandas matplotlib traits traitsui scikits-image pillow pyqt5 ipython
+pip install pandas matplotlib traits traitsui scikit-image pillow pyqt5 ipython
 python setup.py install
 ```
 
