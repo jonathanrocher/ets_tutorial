@@ -200,13 +200,13 @@ class Child(HasStrictTraits):
 
     @observe('father.last_name')
     def _dad_name_updated(self, event):
-        print(Father name changed to', self.father.last_name)
+        print('Father name changed to', self.father.last_name)
 
 ```
 
 ```python
 dad = Parent(last_name='Zubizaretta')
-c = Child(father=Parent)
+c = Child(father=dad)
 ```
 
 ```python
@@ -426,7 +426,7 @@ Hint: Use `os.listdir` and `os.path.getsize`
 from math import pi
 from traits.api import Range, Float, Property, cached_property
 
-class Circle(HasTraits):
+class Circle(HasStrictTraits):
     radius = Range(0.0, 1000.0)
     area = Property(Float, observe='radius')
 
@@ -459,7 +459,7 @@ c.area
 import numpy as np
 from traits.api import Array, Range, observe
 
-class Beats(HasTraits):
+class Beats(HasStrictTraits):
     f1 = Range(1.0, 200.0, value=100)
     f2 = Range(low=1.0, high=200.0, value=104)
     signal = Array(dtype=float, shape=(None,))
@@ -504,7 +504,7 @@ t = Thing()
 ```
 
 ```python
-type(c.age)
+type(t.age)
 ```
 
 <!-- #region slideshow={"slide_type": "slide"} -->
@@ -569,6 +569,7 @@ import PIL.Image
 with PIL.Image.open(filepath) as img:
     data = np.asarray(img)
 ```
+- Example images available at `ets_tutorial/sample_images` for testing
 
 <!-- #endregion -->
 
