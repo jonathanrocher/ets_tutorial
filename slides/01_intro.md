@@ -150,7 +150,9 @@ Final application we will be building in this tutorial:
 - Step 3: Basic GUI using TraitsUI
 - Step 4: PyFace application: tree navigator
 - Step 5: More features
-- Step 6: Installer
+- Step 6: Menus and branding
+- Step 7: [OPTIONAL] Advanced features
+- Step 8: Packaging and sharing
 
 
 <!-- #endregion -->
