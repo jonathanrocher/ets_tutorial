@@ -9,7 +9,7 @@ from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
 from pyface.tasks.action.api import DockPaneToggleGroup, SGroup, SMenu, \
     SMenuBar, SToolBar, TaskAction, TaskWindowAction
 
-from traits.api import HasStrictTraits, File
+from traits.api import Bool, HasStrictTraits, File
 from traitsui.api import Item, OKCancelButtons, View
 from pycasa.ui.image_resources import app_icon
 
@@ -64,6 +64,9 @@ class PycasaTask(Task):
             self.central_pane.edit(obj, factory=ImageFolderEditor)
         else:
             print("Unsupported file format: {}".format(file_ext))
+            obj = None
+
+        return obj
 
     # Menu action methods -----------------------------------------------------
 
@@ -71,7 +74,9 @@ class PycasaTask(Task):
         selector = PathSelector()
         ui = selector.edit_traits(kind="livemodal")
         if ui.result:
-            self.open_in_central_pane(selector.filepath)
+            obj = self.open_in_central_pane(selector.filepath)
+            if obj and selector.do_scan:
+                self._scan_model(obj)
 
     def scan_current_path(self):
         if self.central_pane.active_editor is None:
@@ -82,7 +87,9 @@ class PycasaTask(Task):
 
         active_editor = self.central_pane.active_editor
         model = active_editor.obj
+        self._scan_model(model)
 
+    def _scan_model(self, model):
         self.status_bar.messages = ["Scanning..."]
 
         if isinstance(model, ImageFolder):
@@ -162,7 +169,10 @@ class PycasaTask(Task):
 class PathSelector(HasStrictTraits):
     filepath = File
 
+    scan_for_faces = Bool
+
     view = View(Item("filepath"),
+                Item("scan_for_faces"),
                 resizable=True,
                 icon=app_icon,
                 width=400, height=200,
