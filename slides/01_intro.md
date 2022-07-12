@@ -93,6 +93,27 @@ If you haven't already:
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Sample screenshots
 
+- Can make quite sophisticated UIs
+- Much less code
+- Easy to write
+
+<!-- #endregion -->
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## A Mayavi-based dialog
+
+<center>
+<img src="images/lorenz_ui.png" height="90%" align="center"/>
+</center>
+
+<!-- #endregion -->
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## A customized viewer
+
+<center>
+<img src="images/pysph_viewer.png" height="90%" align="center"/>
+</center>
 
 <!-- #endregion -->
 
@@ -115,10 +136,9 @@ If you haven't already:
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Result
 
-XXX Screenshot of initial application
-XXX Screenshot of final application
+Screenshot of final application
 
-<img src="src" height="90%" width="90%" align="center"/>
+<img src="images/" height="90%" width="90%" align="center"/>
 
 <!-- #endregion -->
 
