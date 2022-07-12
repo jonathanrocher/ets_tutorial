@@ -112,39 +112,45 @@ class PycasaTask(Task):
         return tool_bars
 
     def _menu_bar_default(self):
-        menu_bar = SMenuBar(
-            SMenu(
-                SGroup(
-                    TaskAction(name='Open...',
-                               accelerator='Ctrl+O',
-                               method='request_open_new_path',
-                               image=ImageResource('document-open')),
-                    id='OpenGroup', name='OpenGroup',
-                ),
-                SGroup(
-                    TaskWindowAction(
-                        name='Close',
-                        accelerator='Ctrl+W',
-                        method='close',
-                    ),
-                    id='CloseGroup', name='CloseGroup',
-                ),
-                id='File', name='&File'),
-            SMenu(DockPaneToggleGroup(),
-                  id='View', name='&View'),
-            SMenu(
-                SGroup(
-                    TaskAction(name='Scan',
-                               accelerator='Ctrl+R',
-                               method='scan_current_path',
-                               image=ImageResource('zoom-draw')),
-                    id='ScanGroup', name='ScanGroup'
-                ),
-                id='Tools', name='&Tools',
+        file_menu = SMenu(
+            SGroup(
+                TaskAction(name='Open...',
+                           accelerator='Ctrl+O',
+                           method='request_open_new_path',
+                           image=ImageResource('document-open')),
+                id='OpenGroup', name='OpenGroup',
             ),
-            SMenu(
-                id='Help', name='&Help'
-            )
+            SGroup(
+                TaskWindowAction(
+                    name='Close',
+                    accelerator='Ctrl+W',
+                    method='close',
+                ),
+                id='CloseGroup', name='CloseGroup',
+            ),
+            id='File', name='&File'
+        )
+
+        view_menu = SMenu(DockPaneToggleGroup(),
+                          id='View', name='&View')
+
+        tools_menu = SMenu(
+            SGroup(
+                TaskAction(name='Scan',
+                           accelerator='Ctrl+R',
+                           method='scan_current_path',
+                           image=ImageResource('zoom-draw')),
+                id='ScanGroup', name='ScanGroup'
+            ),
+            id='Tools', name='&Tools')
+
+        help_menu = SMenu(id='Help', name='&Help')
+
+        menu_bar = SMenuBar(
+            file_menu,
+            view_menu,
+            tools_menu,
+            help_menu
         )
         return menu_bar
 
