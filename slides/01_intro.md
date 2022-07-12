@@ -136,7 +136,7 @@ If you haven't already:
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Result
 
-Screenshot of final application
+Final application we will be building in this tutorial:
 
 <img src="../pycasa_final.png" height="90%" width="90%" align="center"/>
 
