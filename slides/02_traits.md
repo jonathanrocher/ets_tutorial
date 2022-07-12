@@ -200,13 +200,13 @@ class Child(HasStrictTraits):
 
     @observe('father.last_name')
     def _dad_name_updated(self, event):
-        print(Father name changed to', self.father.last_name)
+        print('Father name changed to', self.father.last_name)
 
 ```
 
 ```python
 dad = Parent(last_name='Zubizaretta')
-c = Child(father=Parent)
+c = Child(father=dad)
 ```
 
 ```python
@@ -426,7 +426,7 @@ Hint: Use `os.listdir` and `os.path.getsize`
 from math import pi
 from traits.api import Range, Float, Property, cached_property
 
-class Circle(HasTraits):
+class Circle(HasStrictTraits):
     radius = Range(0.0, 1000.0)
     area = Property(Float, observe='radius')
 
@@ -459,7 +459,7 @@ c.area
 import numpy as np
 from traits.api import Array, Range, observe
 
-class Beats(HasTraits):
+class Beats(HasStrictTraits):
     f1 = Range(1.0, 200.0, value=100)
     f2 = Range(low=1.0, high=200.0, value=104)
     signal = Array(dtype=float, shape=(None,))
@@ -504,7 +504,7 @@ t = Thing()
 ```
 
 ```python
-type(c.age)
+type(t.age)
 ```
 
 <!-- #region slideshow={"slide_type": "slide"} -->
@@ -515,7 +515,7 @@ type(c.age)
 <!-- #endregion -->
 
 ```python
-from traits.api import HasTraits
+from traits.api import Event, File, HasStrictTraits, Instance, observe, Str
 
 class DataFile(HasStrictTraits):
     file = File
@@ -523,7 +523,7 @@ class DataFile(HasStrictTraits):
 
 
 class DataReader(HasStrictTraits):
-    file = DataFile
+    file = Instance(DataFile)
     content = Str
 
     @observe("file.data_changed")
@@ -540,12 +540,79 @@ r = DataReader(file=f)
 f.data_changed = True
 ```
 
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Exercise time!
+
+- From the starting script (`stage1_starting_script/face_detect.py`), extract
+  an object that represents an image file.
+- The class for the object should:
+    - Be a traits model, i.e., inherit from `HasStrictTraits`, and, expose
+    - Attributes:
+        - `filepath`: the absolute path to the image file
+        - `metadata`: a dictionary storing EXIF data
+        - `data` a numpy array containing the RGB data
+        - `faces`: a list containing detected faces
+    - Methods:
+        `detect_faces`: returns the list of detected faces
+    - Be reactive:
+        - Ensure `metadata` and `data` are updated with `filepath` is modified
+- Copy `stage1_starting_script/face_detect.py` to `stage2.1_traited_script` and
+  work there
+- *Do not do any plotting in the model!*
+
+- Hint for computing RGB data:
+
+```python
+import numpy as np
+import PIL.Image
+
+with PIL.Image.open(filepath) as img:
+    data = np.asarray(img)
+```
+- Example images available at `ets_tutorial/sample_images` for testing
+
+<!-- #endregion -->
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+### Solution
+`stage2.1_traited_script/traited_face_detect.py`
+<!-- #endregion -->
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Exercise time!
 
-- Take the simple example without traits
-- Create a simple Traits model for it
-- *Do not do any plotting in the model!*
+- Develop another traits model, one that represents a folder containing several
+  image files
+- The class for the object should expose:
+    - Attributes:
+        - `directory`: the absolute path to the folder
+        - `images`: a list of `ImageFile` instances from the previous exercise
+        - `data`: a pandas `DataFrame` to store metadata for each file in the folder
+    - Be reactive:
+        - Ensure `images` and `data` are updated when `directory` is modified
+    - Override `__init__` to ensure directory exists at object initialization
+    - Save work in `stage2.1_traited_script/image_folder.py`
 
+- Hints:
+    - Create a `DataFrame` from `List(Dict)`:
+    ```python
+    import pandas as pd
+    >>> records = [
+        {'A': 5, 'B': 0, 'C': 3, 'D': 3},
+        {'A': 7, 'B': 9, 'C': 3, 'D': 5},
+        {'A': 2, 'B': 4, 'C': 7, 'D': 6}
+    ]
+    >>> df = pd.DataFrame(records)
+       A  B  C  D
+    0  5  0  3  3
+    1  7  9  3  5
+    2  2  4  7  6
+    ```
+    - `os.path.isdir(directory)` to determine if `directory` is valid
+
+<!-- #endregion -->
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+### Solution
+`stage2.1_traited_script/image_folder.py`
 <!-- #endregion -->
