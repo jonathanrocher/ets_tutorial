@@ -9,16 +9,13 @@ from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
 from pyface.tasks.action.api import DockPaneToggleGroup, SGroup, SMenu, \
     SMenuBar, SToolBar, TaskAction, TaskWindowAction
 
-from traits.api import Bool, HasStrictTraits, File
-from traitsui.api import Item, OKCancelButtons, View
-from pycasa.ui.image_resources import app_icon
-
 # Local imports
 from .pycasa_browser_pane import PycasaBrowserPane
 from ...model.image_folder import ImageFolder
 from ..image_folder_editor import ImageFolderEditor
 from ...model.image_file import ImageFile, SUPPORTED_FORMATS
 from ..image_file_editor import ImageFileEditor
+from ..path_selector import PathSelector
 
 
 class PycasaTask(Task):
@@ -75,7 +72,7 @@ class PycasaTask(Task):
         ui = selector.edit_traits(kind="livemodal")
         if ui.result:
             obj = self.open_in_central_pane(selector.filepath)
-            if obj and selector.do_scan:
+            if obj and selector.scan_for_faces:
                 self._scan_model(obj)
 
     def scan_current_path(self):
@@ -164,16 +161,3 @@ class PycasaTask(Task):
 
     def _status_bar_default(self):
         return StatusBarManager(messages=["Welcome to Pycasa"])
-
-
-class PathSelector(HasStrictTraits):
-    filepath = File
-
-    scan_for_faces = Bool
-
-    view = View(Item("filepath"),
-                Item("scan_for_faces"),
-                resizable=True,
-                icon=app_icon,
-                width=400, height=200,
-                buttons=OKCancelButtons)
