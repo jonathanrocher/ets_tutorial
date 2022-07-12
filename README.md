@@ -119,3 +119,32 @@ Contributing to this repository requires:
    and  make a Pull Request
 2. All code contributed must be `flake8` compliant.
 3. All unit tests must pass.
+
+
+# Tutorial flow
+
+1. Introduction (20 mins)
+    - Review development environment setup
+    - Purpose and goals of the tutorial
+    - What is ETS? What type of products is it for?
+2. Starting script (10 min)
+3. Traits (30 mins)
+  - Introduction to Traits: OOP with traits, trait types, and listening to 
+    changes. 
+  - Exercise (10 mins)
+4. Basic TraitsUI (35 mins) 
+  - Introduction to TraitsUI views
+  - The MVC paradigm
+  - TraitsUI exercise (20 mins)
+5. Pyface basics (20 mins)
+  - Structure and responsibilities, "Hello world" in pyface
+  - Building first panes
+  - `Task` and `Pane` important attributes and methods
+  - Pyface exercise: transform hello world into first app (stage 4, 15 mins)
+6. More Pyface (15 mins)
+  - Pyface application folder structure for scalability
+  - `Application` important attributes and methods
+  - Menus, toolbars and branding
+  - Pyface exercise: building a fuller application (stage 5-6, 20 min)
+7. Packaging into 1 click installer (10 m)
+8. Wrap up and demo of any advanced UIs? (15 min)
