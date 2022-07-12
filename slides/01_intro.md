@@ -54,13 +54,22 @@ If you haven't already:
 <!-- #endregion -->
 
 <!-- #region slideshow={"slide_type": "slide"} -->
-## Why ETS?
+## Why ETS? When ETS?
 
+- Open-source
 - Mature
-- Easy to use
-- Design promotes reusable code
+- Easy to start, easy to grow
+- Tools promotes reusable code and good design patterns
 - Largely declarative UI
-- PyQt/PySide and wxPython support
+- Backend-agnostic: avoid having to update when PyQt, wxPython, ... update!
+- Limitless around data tools, in particular plotting!
+- Reduced development costs (single programming language)
+- No architecture mind shift necessary (client-server) and no exposure to 
+  server hacking.
+
+Limitations:
+- Limited by back-end when it comes to widgets compared to Javascript
+- Desktop application isn't a solution for all needs
 
 <!-- #endregion -->
 
@@ -76,7 +85,8 @@ If you haven't already:
   - Envisage: plug-in application framework
   - Chaco: interactive plotting library
   - Mayavi: 3D plotting
-  - And others
+  - traits_futures: running tasks in parallel/background
+  - And many others...
 
 <!-- #endregion -->
 
@@ -84,7 +94,7 @@ If you haven't already:
 ## Layered package design
 
 <center>
-<img src="images/layers.png" height="90%" align="center"/>
+<img src="images/application_layers.png" height="90%" align="center"/>
 </center>
 
 <!-- #endregion -->
@@ -129,6 +139,7 @@ If you haven't already:
   - Easy to use UI
   - Learn a little MVC
   - Design application to scale
+
 - Share the application with others
 
 <!-- #endregion -->
@@ -152,7 +163,7 @@ Final application we will be building in this tutorial:
 - Step 5: More features
 - Step 6: Menus and branding
 - Step 7: [OPTIONAL] Advanced features
-- Step 8: Packaging and sharing
+- Step 8: [OPTIONAL] Packaging and sharing
 
 
 <!-- #endregion -->
