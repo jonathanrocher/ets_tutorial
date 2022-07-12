@@ -95,11 +95,11 @@ are able to reach the end goal.
   - step 3: GUI: first traitsUI views
   - step 4: pyface application: tree navigator and double-click on an image to 
     display the traitsUI view of the image.
+  - INTERLUDE: code structure for scalability
   - step 5: Fuller pyface application: 
     - add folder editor to display a table of metadata for all images inside
     - add button to launch the face detection on all images
     - add widgets to filter images
-  - INTERLUDE: code structure for scalability
   - step 6: pyface application: adding menu and branding 
   - step 7: pyface application: advanced features [OPTIONAL]
   - step 8: 1-click installer
