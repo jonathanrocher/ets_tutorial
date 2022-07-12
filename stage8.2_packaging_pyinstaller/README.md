@@ -9,8 +9,8 @@ able to just give a list of commands to download the code, install an
 environment and run the application.
 
 But a major advantage of GUI applications is that they are intended to be
-accessible by users who are not as knowledgable about coding.  For this reason
-it's desirable to be able to provide them with simply tools which either
+accessible by users who are not as knowledgeable about coding.  For this reason
+it's desirable to be able to provide them with simple tools which either
 install an application and its environment, or which look and behave like
 ordinary applications on their operating system.
 
@@ -26,13 +26,13 @@ consider using include:
   which is new and somewhat incomplete, but aims to be deployable on all
   platforms including iOS and Android.
 
-In this tutorial we will use [PyInstaller](https://pyinstaller.org/en/stable/)
+In this section we will use [PyInstaller](https://pyinstaller.org/en/stable/)
 because it works on all major desktop platforms and is fairly mature.
 
 ## PyInstaller Basics
 
-At its simplest, using PyInstaller is just a matter of installing pysinstaller
-with pip:
+At its simplest, using PyInstaller is just a matter of installing pyinstaller
+with `pip`:
 ```
 pip install -U pyinstaller
 ```
@@ -40,13 +40,14 @@ changing to the directory of your program, and running
 ```
 pysinstaller my_script.py
 ```
-Pysinstaller will create an application file and place it in a `dist/` folder
+PyInstaller will create an application file (.exe if on Windows, executable if 
+on POSIX systems) and place it in a `dist/` folder
 next to your application.  You can run this executable as a command from the
 command-line, or by finding the icon in your OS file browser and opening it
 that way.
 
 PyInstaller tries to analyse your code and only include modules that it knows
-that your application will use, to make the resuling application file as small
+that your application will use, to make the resulting application file as small
 as possible.  This is magical, and as with all magical things there are a lot
 of options and things to tweak to make sure that the magic works.
 
@@ -66,7 +67,7 @@ the particular idiosyncracies of each.
 ### Single Directory vs. Single File
 
 PyInstaller gives you a choice between building an application as an
-executable plus auxillary files as a single directory, or as a single
+executable plus auxiliary files as a single directory, or as a single
 executable file.  While the single file is nicer, getting it to work can be
 more difficult.  For simplicity, we'll use the default single directory
 approach for this tutorial.  You can use zip or a similar utility to bundle
@@ -123,12 +124,12 @@ entry_points={
 which advertise that the package has a command-line script `my_script` that
 can be run from the `main` function in `my_package.my_script` and Python tools
 will ensure that these are made available when you install them into a Python
-environment.  However they are a much more general mechanism which can be used
+environment. However they are a much more general mechanism which can be used
 for building general "plugin" capabilities for Python libraries.
 
 Amir Rachum has a [good blog post](https://amir.rachum.com/blog/2017/07/28/python-entry-points/)
 from a few years back that explains why you might use or care about entry
-points.  More modern code may also use the 
+points.
 
 Entry points used to be part of the `setuptools` library, but since Python 3.8
 they are now available via the
@@ -193,7 +194,7 @@ Most of this you can ignore for simple usage, but there are a few things that
 you can use to fix the problems listed above:
 
 - adding data files: the `datas` argument to the `Analysis` function expects
-  a list of `(source, dest)` tuples that tell PyImporter to include the
+  a list of `(source, dest)` tuples that tell PyInstaller to include the
   file(s) at the `source` path in your code in the directory specified by
   `dest` in your application.  This understands basic "glob"-style wildcards.
 
@@ -235,10 +236,10 @@ provide particular information that `package.name` needs to correctly work in
 a PyInstaller application.  The idea is that these can be defined once for a
 given library and then shared by all the applications which use this library.
 
-PyInstaller comes with built in support for some common libraries which
+PyInstaller comes with built-in support for some common libraries which
 require additional support, such as Matplotlib: you should not need to do
 any additional work to build an application which used matplotlib in a
-standard way, for example.  Additionally the
+standard way, for example. Additionally the
 [PyInstaller hooks repository](https://github.com/pyinstaller/pyinstaller-hooks-contrib)
 has additional community-contributed hook files for popular packages, which
 are `pip`-installable as `pyinstaller-hooks-contrib`.
