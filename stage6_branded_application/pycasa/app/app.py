@@ -3,7 +3,6 @@
 """
 import logging
 
-from traits.api import Tuple, Int
 from pyface.tasks.api import TasksApplication, TaskFactory
 from pyface.api import SplashScreen
 from pyface.action.api import Action
