@@ -30,7 +30,7 @@ class ImageFolderEditor(Editor):
     # -------------------------------------------------------------------------
 
     def _get_name(self):
-        return self.obj.path[:25]
+        return self.obj.directory[:25]
 
     def _get_tooltip(self):
-        return self.obj.path
+        return self.obj.directory

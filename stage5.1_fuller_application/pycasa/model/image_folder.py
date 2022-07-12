@@ -1,8 +1,9 @@
 
 # General imports
 import glob
-from os.path import expanduser, isdir, split
+from os.path import basename, expanduser, isdir
 
+import numpy as np
 import pandas as pd
 
 # ETS imports
@@ -11,9 +12,10 @@ from traits.api import (
 )
 
 # Local imports
-from pycasa.model.image_file import ImageFile
+from pycasa.model.image_file import ImageFile, SUPPORTED_FORMATS
 
-SUPPORTED_FORMATS = [".png", ".jpg", ".jpeg", ".PNG", ".JPG", ".JPEG"]
+FILENAME_COL = "filename"
+NUM_FACE_COL = "Num. faces"
 
 
 class ImageFolder(HasStrictTraits):
@@ -23,23 +25,38 @@ class ImageFolder(HasStrictTraits):
 
     images = List(Instance(ImageFile))
 
+    data = Instance(pd.DataFrame)
+
     def __init__(self, **traits):
+        # Don't forget this!
         super(ImageFolder, self).__init__(**traits)
         if not isdir(self.directory):
             msg = f"The provided directory isn't a real directory: " \
                   f"{self.directory}"
             raise ValueError(msg)
+        self.data = self._create_metadata_df()
 
     @observe("directory")
-    def _get_images(self, event):
+    def _update_images(self, event):
         self.images = [
             ImageFile(filepath=file)
             for fmt in SUPPORTED_FORMATS
             for file in glob.glob(f"{self.directory}/*{fmt}")
         ]
 
-    def create_metadata_df(self):
-        return pd.DataFrame(
-            [img.metadata for img in self.images],
-            index=[split(img.filepath)[1] for img in self.images]
-        )
+    @observe("images.items")
+    def _update_metadata(self, event):
+        self.data = self._create_metadata_df()
+
+    def _create_metadata_df(self):
+        if not self.images:
+            return pd.DataFrame({FILENAME_COL: [], NUM_FACE_COL: []})
+        return pd.DataFrame([
+                {
+                    FILENAME_COL: basename(img.filepath),
+                    NUM_FACE_COL: np.nan,
+                    **img.metadata
+
+                }
+                for img in self.images
+        ])

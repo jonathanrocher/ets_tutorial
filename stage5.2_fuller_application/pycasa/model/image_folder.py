@@ -1,24 +1,28 @@
 # General imports
-import os
+import glob
+from os.path import basename, expanduser, isdir
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # ETS imports
-from traits.api import Directory, Event, HasStrictTraits, Instance
+from traits.api import (
+    Directory, Event, HasStrictTraits, Instance, List, observe,
+)
 
 # Local imports
-from .image_file import ImageFile, SUPPORTED_FORMATS
+from pycasa.model.image_file import ImageFile, SUPPORTED_FORMATS
 
 FILENAME_COL = "filename"
-
 NUM_FACE_COL = "Num. faces"
 
 
 class ImageFolder(HasStrictTraits):
-    """ Model to hold an image folder.
+    """ Model for a folder of images.
     """
-    path = Directory
+    directory = Directory(expanduser("~"))
+
+    images = List(Instance(ImageFile))
 
     data = Instance(pd.DataFrame)
 
@@ -27,39 +31,39 @@ class ImageFolder(HasStrictTraits):
     def __init__(self, **traits):
         # Don't forget this!
         super(ImageFolder, self).__init__(**traits)
-        if not os.path.isdir(self.path):
-            msg = f"Unable to create an ImageFolder from {self.path} since" \
-                  f" it is not a valid directory."
+        if not isdir(self.directory):
+            msg = f"The provided directory isn't a real directory: " \
+                  f"{self.directory}"
             raise ValueError(msg)
+        self.data = self._create_metadata_df()
 
-        self.data = self.to_dataframe()
+    @observe("directory")
+    def _update_images(self, event):
+        self.images = [
+            ImageFile(filepath=file)
+            for fmt in SUPPORTED_FORMATS
+            for file in glob.glob(f"{self.directory}/*{fmt}")
+        ]
 
-    def to_dataframe(self):
-        if not self.path:
+    @observe("images.items")
+    def _update_metadata(self, event):
+        self.data = self._create_metadata_df()
+
+    def _create_metadata_df(self):
+        if not self.images:
             return pd.DataFrame({FILENAME_COL: [], NUM_FACE_COL: []})
+        return pd.DataFrame([
+                {
+                    FILENAME_COL: basename(img.filepath),
+                    NUM_FACE_COL: np.nan,
+                    **img.metadata
 
-        data = []
-        for filename in os.listdir(self.path):
-            file_ext = os.path.splitext(filename)[1].lower()
-            if file_ext in SUPPORTED_FORMATS:
-                filepath = os.path.join(self.path, filename)
-                img_file = ImageFile(filepath=filepath)
-                file_data = {FILENAME_COL: filename, NUM_FACE_COL: np.nan}
-                try:
-                    file_data.update(img_file.metadata)
-                except Exception:
-                    pass
-                data.append(file_data)
-
-        return pd.DataFrame(data)
+                }
+                for img in self.images
+        ])
 
     def compute_num_faces(self, **kwargs):
-        cols = list(self.data.columns)
-        for i, filename in enumerate(self.data[FILENAME_COL]):
-            print(filename)
-            filepath = os.path.join(self.path, filename)
-            img_file = ImageFile(filepath=filepath)
-            faces = img_file.detect_faces(**kwargs)
-            j = cols.index(NUM_FACE_COL)
-            self.data.iloc[i, j] = len(faces)
+        for i, image in enumerate(self.images):
+            faces = image.detect_faces(**kwargs)
+            self.data[NUM_FACE_COL].iat[i] = len(faces)
             self.data_updated = True

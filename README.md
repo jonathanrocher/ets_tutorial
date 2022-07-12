@@ -33,21 +33,38 @@ git clone git@github.com:jonathanrocher/ets_tutorial.git
 
 ### EDM users (recommended)
 First, download and install EDM from https://www.enthought.com/edm/. Then, 
-open a `Terminal`/`Powershell`/`Cmd Prompt`/ and navigate to the folder 
-where the repo was cloned. Enter the following command to create a 
-dedicated Python environment and install all dependencies in it:
+open a `Terminal`/`Powershell`/`Cmd Prompt`/ and create a lighweight bootstrap environment to run the installation commands.
 ```commandline
-python ci build
+edm envs create bootstrap
+edm install --environment bootstrap click
+```
+Next, enter the following commands to create a 
+dedicated Python environment called `ets_tutorial` and install all dependencies in it:
+```commandline
+edm run -e bootstrap -- python ci build --environment ets_tutorial
+```
+All application related `python` commands are assumed to run in this
+environment. You can activate the environment with:
+```commandline
+edm shell -e ets_tutorial
 ```
 
 ### Conda users
-[TODO]
+Create a new conda environment called `ets_tutorial` and install local
+dependencies with the following commands:
+```commandline
+conda create -n ets_tutorial python=3.6 pandas matplotlib traits traitsui scikit-image pillow pyqt ipython importlib_resources importlib_metadata
+conda activate ets_tutorial
+python setup.py install
+```
+Activate the new environment with `conda activate ets_tutorial`.
 
 ### pip users
 Assuming a Python environment is created and activated on your machine, for 
 example from https://www.python.org/, 
 ```commandline
 pip install pandas matplotlib traits traitsui scikits-image pillow pyqt5 ipython
+python setup.py install
 ```
 
 ## Getting help
@@ -78,11 +95,11 @@ are able to reach the end goal.
   - step 3: GUI: first traitsUI views
   - step 4: pyface application: tree navigator and double-click on an image to 
     display the traitsUI view of the image.
+  - INTERLUDE: code structure for scalability
   - step 5: Fuller pyface application: 
     - add folder editor to display a table of metadata for all images inside
     - add button to launch the face detection on all images
     - add widgets to filter images
-  - INTERLUDE: code structure for scalability
   - step 6: pyface application: adding menu and branding 
   - step 7: pyface application: advanced features [OPTIONAL]
   - step 8: 1-click installer

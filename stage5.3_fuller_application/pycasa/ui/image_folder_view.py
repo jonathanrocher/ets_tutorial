@@ -9,7 +9,7 @@ from traitsui.api import HGroup, Item, Label, ListStrEditor, ModelView, \
 from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 
 # Local imports
-from ..model.image_folder import FILENAME_COL, ImageFolder, NUM_FACE_COL
+from pycasa.model.image_folder import FILENAME_COL, ImageFolder, NUM_FACE_COL
 
 
 DISPLAYED_COLUMNS = [FILENAME_COL, NUM_FACE_COL] + [
@@ -54,7 +54,7 @@ class ImageFolderView(ModelView):
 
     def traits_view(self):
         view = View(
-            Item("model.path", style="readonly", show_label=False),
+            Item("model.directory", style="readonly", show_label=False),
             HGroup(
                 Spring(),
                 Item("view_filter_controls"),
@@ -91,7 +91,7 @@ class ImageFolderView(ModelView):
     @observe("scan")
     def scan_for_faces(self, event):
         self.model.compute_num_faces()
-        self.all_data = self.model.data.copy()
+        self.all_data.update(self.model.data)
 
     @observe("selected_years")
     def update_years(self, event):
@@ -117,12 +117,18 @@ class ImageFolderView(ModelView):
         return pd.Series(np.ones(len(self.model.data), dtype=bool))
 
     def _all_data_default(self):
+        # Enrich metadata with missing fields: date time, make
         data = self.model.data.copy()
+
         if DATETIME_COL not in data.columns:
             data[DATETIME_COL] = np.nan
 
         if MAKE_COL not in data.columns:
             data[MAKE_COL] = np.nan
+
+        def parse_year(x):
+            return x.split(":")[0] if isinstance(x, str) else "unknown"
+        data[YEAR_KEY] = data[DATETIME_COL].apply(parse_year)
 
         return data
 
@@ -130,10 +136,6 @@ class ImageFolderView(ModelView):
         return self.all_data
 
     def _all_years_default(self):
-        def parse_year(x):
-            return x.split(":")[0] if isinstance(x, str) else "unknown"
-
-        self.all_data[YEAR_KEY] = self.all_data[DATETIME_COL].apply(parse_year)
         return sorted(self.all_data[YEAR_KEY].unique().tolist())
 
 
