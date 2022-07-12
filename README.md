@@ -112,11 +112,10 @@ are able to reach the end goal.
 
 
 ## Contributing
-### Code structure
-[TODO]
 
 ### Rules for contributing to the repository
 Contributing to this repository requires:
-1. to make a Pull Request
-2. all code contributed must be pep8 compliant
-3. all unit tests must pass
+1. to fork the repository, branch off of master, create a branch with changes, 
+   and  make a Pull Request
+2. All code contributed must be `flake8` compliant.
+3. All unit tests must pass.
