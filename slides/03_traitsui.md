@@ -423,7 +423,7 @@ ImageViewer().edit_traits()
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## The ModelView object:
 - We want our science model to be free of UI code
-- But it's still useful for models and views to responde to changes to one
+- But it's still useful for models and views to respond to changes to one
   another -- `ModelView`s 
 - `ModelView`s also monitor UI toolkit events like window creation,
   closing, user clicking OK or Cancel buttons
@@ -483,8 +483,7 @@ image.data = astronaut()
 <!-- #endregion -->
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Solution
-- `stage3.1_first_views/traited_face_detect.py`
-- `stage3.1_first_views/image_folder_view.py`
+
 <!-- #endregion -->
 ## Toolkit selection
 
@@ -520,7 +519,3 @@ ETSConfig.toolkit = 'qt'
 
 
 <!-- #endregion -->
-
-```python
-
-```
