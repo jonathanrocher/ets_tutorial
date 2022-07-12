@@ -102,7 +102,7 @@ are able to reach the end goal.
     - add widgets to filter images
   - step 6: pyface application: adding menu and branding 
   - step 7: pyface application: advanced features [OPTIONAL]
-  - step 8: 1-click installer
+  - step 8: Packaging and sharing
 
 
 ## Contributing
