@@ -4,17 +4,11 @@
 3. `python setup.py bdist_wheel` to build and share a binary wheel
 """
 
-from os.path import abspath, dirname, join
+from os.path import join
 from setuptools import setup, find_packages
 from glob import glob
 
-HERE = dirname(abspath(__file__))
-
 PKG_NAME = "pycasa"
-
-info = {}
-init_file = join(HERE, PKG_NAME, "__init__.py")
-exec(open(init_file).read(), globals(), info)
 
 # Application image files -----------------------------------------------------
 ui_images_files = glob(join(PKG_NAME, "ui", "images", "*.*"))
@@ -24,7 +18,7 @@ ui_app_images_files = glob(join(PKG_NAME, "app", "images", "*.png"))
 
 setup(
     name=PKG_NAME,
-    version=info["__version__"],
+    version="0.0.1",
     description='ETS based GUI application for image exploration and face '
                 'detection',
     ext_modules=[],
