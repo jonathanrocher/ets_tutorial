@@ -30,6 +30,6 @@ class TestImageFolder(TestCase):
 
     def test_real_folder(self):
         img_folder = ImageFolder(directory=SAMPLE_IMG_DIR)
-        self.assertEqual(len(img_folder.data), 2)
+        self.assertEqual(len(img_folder.data), 4)
         for key in ['ExifVersion', 'ExifImageWidth', 'ExifImageHeight']:
             self.assertIn(key, img_folder.data.columns)
