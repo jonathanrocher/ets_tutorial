@@ -1,3 +1,9 @@
+""" Use this file to share this application with other developers:
+1. `python setup.py develop` to code on it
+2. `python setup.py bdist_egg` to build and share a binary egg
+3. `python setup.py bdist_wheel` to build and share a binary wheel
+"""
+
 from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
 from glob import glob
