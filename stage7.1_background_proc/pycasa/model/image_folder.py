@@ -7,7 +7,10 @@ import pandas as pd
 
 # ETS imports
 from traits.api import (
-    Directory, Event, HasStrictTraits, Instance, List, observe,
+    Bool, Directory, Event, HasStrictTraits, Instance, List, observe, Property
+)
+from traits_futures.api import (
+    CallFuture, submit_call, TraitsExecutor
 )
 
 # Local imports
@@ -27,6 +30,12 @@ class ImageFolder(HasStrictTraits):
     data = Instance(pd.DataFrame)
 
     data_updated = Event
+
+    traits_executor = Instance(TraitsExecutor)
+
+    future = Instance(CallFuture)
+
+    executor_idle = Property(Bool, depends_on="future.done")
 
     def __init__(self, **traits):
         # Don't forget this!
@@ -62,8 +71,25 @@ class ImageFolder(HasStrictTraits):
                 for img in self.images
         ])
 
-    def compute_num_faces(self, **kwargs):
-        for i, image in enumerate(self.images):
-            faces = image.detect_faces(**kwargs)
-            self.data[NUM_FACE_COL].iat[i] = len(faces)
-            self.data_updated = True
+    def compute_num_faces_background(self, **kwargs):
+        self.future = submit_call(
+            self.traits_executor,
+            self._compute_num_faces,
+            **kwargs
+        )
+
+    def _compute_num_faces(self, **kwargs):
+        return [
+            len(img_file.detect_faces(**kwargs))
+            for img_file in self.images
+        ]
+
+    @observe("future:done")
+    def _update_data(self, event):
+        num_faces_all_images = self.future.result
+        for idx, num_faces in enumerate(num_faces_all_images):
+            self.data[NUM_FACE_COL].iat[idx] = num_faces
+        self.data_updated = True
+
+    def _get_executor_idle(self):
+        return self.future is None or self.future.done

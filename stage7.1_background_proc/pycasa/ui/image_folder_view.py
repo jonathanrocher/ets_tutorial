@@ -68,8 +68,7 @@ class ImageFolderView(ModelView):
                 visible_when="view_filter_controls",
             ),
             Item("filtered_data",
-                 editor=DataFrameEditor(columns=DISPLAYED_COLUMNS,
-                                        update="data_updated"),
+                 editor=DataFrameEditor(columns=DISPLAYED_COLUMNS),
                  show_label=False, visible_when="len(model.data) > 0"),
             HGroup(
                 Spring(),
@@ -79,8 +78,11 @@ class ImageFolderView(ModelView):
             ),
             HGroup(
                 Spring(),
-                Item("scan", show_label=False,
-                     enabled_when="len(model.data) > 0"),
+                Item(
+                    "scan",
+                    show_label=False,
+                    enabled_when="len(model.data) > 0 and model.executor_idle"
+                ),
                 Spring(),
             ),
         )
@@ -90,8 +92,12 @@ class ImageFolderView(ModelView):
 
     @observe("scan")
     def scan_for_faces(self, event):
-        self.model.compute_num_faces()
+        self.model.compute_num_faces_background()
+
+    @observe("model:data_updated")
+    def _update_all_data(self, event):
         self.all_data.update(self.model.data)
+        self.update_filtered_data(None)
 
     @observe("selected_years")
     def update_years(self, event):

@@ -3,6 +3,7 @@ from os.path import splitext
 
 # ETS imports
 from traits.api import Instance
+from traits_futures.api import TraitsExecutor
 from pyface.api import error, ImageResource
 from pyface.action.api import StatusBarManager
 from pyface.tasks.api import PaneItem, SplitEditorAreaPane, Task, TaskLayout
@@ -26,6 +27,9 @@ class PycasaTask(Task):
 
     #: The human-readable name of the task.
     name = "Pycasa"
+
+    #: An executor for background tasks
+    traits_executor = Instance(TraitsExecutor, ())
 
     central_pane = Instance(SplitEditorAreaPane)
 
@@ -57,13 +61,20 @@ class PycasaTask(Task):
             obj = ImageFile(filepath=filepath)
             self.central_pane.edit(obj, factory=ImageFileEditor)
         elif file_ext == "":
-            obj = ImageFolder(directory=filepath)
+            obj = ImageFolder(
+                directory=filepath,
+                traits_executor=self.traits_executor
+            )
             self.central_pane.edit(obj, factory=ImageFolderEditor)
         else:
             print("Unsupported file format: {}".format(file_ext))
             obj = None
 
         return obj
+
+    def prepare_destroy(self):
+        self.traits_executor.shutdown()
+        return super().prepare_destroy()
 
     # Menu action methods -----------------------------------------------------
 
