@@ -5,7 +5,7 @@ from traitsui.api import (
 from traitsui.ui_editors.data_frame_editor import DataFrameEditor
 
 # Local imports
-from pycasa.model.image_folder import FILENAME_COL, ImageFolder, NUM_FACE_COL
+from image_folder import FILENAME_COL, ImageFolder, NUM_FACE_COL
 
 
 DISPLAYED_COLUMNS = [FILENAME_COL, NUM_FACE_COL] + [

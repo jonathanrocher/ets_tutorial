@@ -12,7 +12,7 @@ from traits.api import (
 )
 
 # Local imports
-from pycasa.model.image_file import ImageFile, SUPPORTED_FORMATS
+from traited_face_detect import ImageFile, SUPPORTED_FORMATS
 
 FILENAME_COL = "filename"
 NUM_FACE_COL = "Num. faces"
