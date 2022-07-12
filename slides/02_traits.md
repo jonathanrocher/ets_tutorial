@@ -515,7 +515,7 @@ type(c.age)
 <!-- #endregion -->
 
 ```python
-from traits.api import HasTraits
+from traits.api import Event, File, HasStrictTraits, Instance, observe, Str
 
 class DataFile(HasStrictTraits):
     file = File
@@ -523,7 +523,7 @@ class DataFile(HasStrictTraits):
 
 
 class DataReader(HasStrictTraits):
-    file = DataFile
+    file = Instance(DataFile)
     content = Str
 
     @observe("file.data_changed")
@@ -539,7 +539,6 @@ r = DataReader(file=f)
 ```python
 f.data_changed = True
 ```
-
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Exercise time!
