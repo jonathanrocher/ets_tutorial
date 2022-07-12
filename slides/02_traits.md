@@ -141,6 +141,25 @@ moe.age = 21
 ```
 
 <!-- #region slideshow={"slide_type": "slide"} -->
+## What if you want to override `__init__`?
+
+<!-- #endregion -->
+
+```python
+class Child(HasStrictTraits):
+    age = Int
+    father = Instance(Parent)
+    last_name = Delegate('father')
+
+    def __init__(self, **traits):
+        super(HasStrictTraits, self).__init__(**traits)
+
+    def _age_changed(self, old, new):
+        print('Age changed from %s to %s ' % (old, new))
+```
+
+
+<!-- #region slideshow={"slide_type": "slide"} -->
 ## Predefined trait types
 
 - Standard: `Bool, Complex, Int, Float, Str, Tuple, List, Dict`
@@ -291,17 +310,171 @@ c = Child(age=21, father=p, first_name='Romano', handedness='right')
 p.last_name = 'Ahmed'
 ```
 
+
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Container traits
+
+- `List`, `Dict` and `Set`
+
+<!-- #endregion -->
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Trait Lists
+
+
+<!-- #endregion -->
+
+```python
+from traits.api import List
+
+class Bowl(HasStrictTraits):
+    fruits = List(Str)
+
+    @observe("fruits")
+    def _fruits_list_updated(self, event):
+        print("fruits list updated", type(event))
+        print(event.old, event.new)
+
+    @observe("fruits.items")
+    def _fruits_updated(self, event):
+        print("Fruits items changed", type(event))
+        print(event.added, event.index, event.removed)
+
+```
+
+```python
+b = Bowl()
+b.fruits = ['apple']
+b.fruits.append('mango')
+```
+
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Other Trait Events
 
-- Advanced, for other kind of traits
 - `List` trait changes: `ListChangeEvent`
 - `Dict` trait changes: `DictChangeEvent`
 - `Set` trait changes: `SetChangeEvent`
 
 <!-- #endregion -->
 
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Some more useful traits
 
+- `File`, `Directory` and `Dict`
+- Useful for our application
+
+<!-- #endregion -->
+
+```python
+from traits.api import Dict, Directory, File
+
+class Folder(HasStrictTraits):
+    root = Directory
+    files = List(File)
+    sizes = Dict
+```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Walk through
+
+- Here the dictionary can have any keys or values
+- Can use the `key_trait` and `value_trait` to specify them
+
+<!-- #endregion -->
+
+
+```python
+class Folder(HasStrictTraits):
+    root = Directory
+    files = List(File)
+    sizes = Dict(key_trait=Str, value_trait=Dict(Str, Int))
+```
+
+```python
+f = Folder(root='/tmp')
+```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Exercise
+
+Modify the above example so when you set `root`, it finds all the files in
+that directory and the file sizes and sets the appropriate traits.
+
+Hint: Use `os.listdir` and `os.path.getsize`
+
+<!-- #endregion -->
+
+```python
+# Solution
+```
+
+
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Property traits
+
+- What if you have a quantity that is computed?
+- Use `Property` traits here
+- Use the `observe=` kwarg
+- Use `@cached_property` to cache output
+- Use the `_get_propname` and `_set_propname` (optional)
+
+<!-- #endregion -->
+
+```python
+from math import pi
+from traits.api import Range, Float, Property, cached_property
+
+class Circle(HasTraits):
+    radius = Range(0.0, 1000.0)
+    area = Property(Float, observe='radius')
+
+    @cached_property
+    def _get_area(self):
+        print("computing area")
+        return pi*self.radius**2
+```
+
+```python
+c = Circle(radius=2)
+c.area
+```
+
+```python
+c.area
+```
+
+<!-- #region slideshow={"slide_type": "slide"} -->
+## `Array` traits
+
+- Can handle numpy arrays of arbitrary shape
+- Can specify dtype, shape, and casting options using kwargs
+- Warning: cannot "listen" to changes inside the array
+- Simple example
+
+<!-- #endregion -->
+
+```python
+import numpy as np
+from traits.api import Array, Range, observe
+
+class Beats(HasTraits):
+    f1 = Range(1.0, 200.0, value=100)
+    f2 = Range(low=1.0, high=200.0, value=104)
+    signal = Array(dtype=float, shape=(None,))
+
+    @observe('f1, f2')
+    def update(self, event=None):
+        t = np.linspace(0, 1, 500)
+        pi = np.pi
+        self.signal = np.sin(2*pi*self.f1*t) + np.sin(2*pi*self.f2*t)
+```
+
+```python
+b = Beats()
+b.f2 = 103
+```
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Setting default values
 
@@ -320,7 +493,7 @@ class Thing(HasStrictTraits):
     date = Date()
     age = Int(12)
 
-    def _date_default(self):slideshow={"slide_type": "slide"}
+    def _date_default(self):
         print('default')
         return datetime.datetime.today()
 ```
@@ -334,12 +507,45 @@ t = Thing()
 type(c.age)
 ```
 
+<!-- #region slideshow={"slide_type": "slide"} -->
+## `Event` traits
+
+- Holds no value but can be set and be listened to
+
+<!-- #endregion -->
+
+```python
+from traits.api import HasTraits
+
+class DataFile(HasStrictTraits):
+    file = File
+    data_changed = Event
+
+
+class DataReader(HasStrictTraits):
+    file = DataFile
+    content = Str
+
+    @observe("file.data_changed")
+    def file_data_changed(self, event):
+        print("File data changed")
+
+```
+
+```python
+f = DataFile(file='/tmp/junk.dat')
+r = DataReader(file=f)
+```
+```python
+f.data_changed = True
+```
 
 
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Exercise time!
 
-- Take the simple example
-- Create a simple Traits model
+- Take the simple example without traits
+- Create a simple Traits model for it
+- *Do not do any plotting in the model!*
 
 <!-- #endregion -->

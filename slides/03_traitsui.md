@@ -247,6 +247,7 @@ from traits.etsconfig.api import ETSConfig
 ETSConfig.toolkit = 'qt'
 ```
 
+
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Other documentation
 
