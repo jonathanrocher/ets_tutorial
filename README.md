@@ -9,11 +9,17 @@ In this workshop, we will learn to embed scientific tools into a robust
 scientific application that can scale from a tiny UI to a large platform. As an 
 example, attendees will build an image browser application (including 
 face-detection capabilities), allowing users to search through their pictures, 
-based on various criteria. We will start from a simple jupyter notebook and 
+based on various criteria. We will start from a simple python script and 
 progressively turn it into a complete application using Matplotlib and several 
 packages from the Enthought Tool Suite such as Traits, TraitsUI and Pyface. In 
 the process, attendees will learn how to design clean, maintainable and 
-scalable applications, and package them into an installer.
+scalable applications, and discuss sharing your tool with your users.
+
+Ultimately, we will be building fairly sofisticated application that allows 
+users to explore images on their machines and detect faces in them:
+
+![full app screenshot](pycasa_final.png)
+
 
 ## Set up instructions
 First step to set yourself up is to clone this repository
@@ -33,21 +39,38 @@ git clone git@github.com:jonathanrocher/ets_tutorial.git
 
 ### EDM users (recommended)
 First, download and install EDM from https://www.enthought.com/edm/. Then, 
-open a `Terminal`/`Powershell`/`Cmd Prompt`/ and navigate to the folder 
-where the repo was cloned. Enter the following command to create a 
-dedicated Python environment and install all dependencies in it:
+open a `Terminal`/`Powershell`/`Cmd Prompt`/ and create a lighweight bootstrap environment to run the installation commands.
 ```commandline
-python ci build
+edm envs create bootstrap
+edm install --environment bootstrap click
+```
+Next, enter the following commands to create a 
+dedicated Python environment called `ets_tutorial` and install all dependencies in it:
+```commandline
+edm run -e bootstrap -- python ci build --environment ets_tutorial
+```
+All application related `python` commands are assumed to run in this
+environment. You can activate the environment with:
+```commandline
+edm shell -e ets_tutorial
 ```
 
 ### Conda users
-[TODO]
+Create a new conda environment called `ets_tutorial` and install local
+dependencies with the following commands:
+```commandline
+conda create -n ets_tutorial python=3.6 pandas matplotlib traits traitsui scikit-image pillow pyqt ipython importlib_resources importlib_metadata
+conda activate ets_tutorial
+python setup.py install
+```
+Activate the new environment with `conda activate ets_tutorial`.
 
 ### pip users
 Assuming a Python environment is created and activated on your machine, for 
 example from https://www.python.org/, 
 ```commandline
 pip install pandas matplotlib traits traitsui scikits-image pillow pyqt5 ipython
+python setup.py install
 ```
 
 ## Getting help
@@ -78,37 +101,37 @@ are able to reach the end goal.
   - step 3: GUI: first traitsUI views
   - step 4: pyface application: tree navigator and double-click on an image to 
     display the traitsUI view of the image.
+  - INTERLUDE: code structure for scalability
   - step 5: Fuller pyface application: 
     - add folder editor to display a table of metadata for all images inside
     - add button to launch the face detection on all images
     - add widgets to filter images
-  - INTERLUDE: code structure for scalability
   - step 6: pyface application: adding menu and branding 
   - step 7: pyface application: advanced features [OPTIONAL]
-  - step 8: 1-click installer
+  - step 8: Packaging and sharing
 
 
 ## Contributing
-### Code structure
-[TODO]
 
 ### Rules for contributing to the repository
 Contributing to this repository requires:
-1. to make a Pull Request
-2. all code contributed must be pep8 compliant
-3. all unit tests must pass
+1. to fork the repository, branch off of master, create a branch with changes, 
+   and  make a Pull Request
+2. All code contributed must be `flake8` compliant.
+3. All unit tests must pass.
 
 
-# Instructor notes: tutorial flow
+# Tutorial flow
 
-1. Introduction 20 mins
+1. Introduction (20 mins)
     - Review development environment setup
     - Purpose and goals of the tutorial
-    - What is ETS? Why pick it to build tools? When to pick it to build tools?
+    - What is ETS? What type of products is it for?
 2. Starting script (10 min)
 3. Traits (30 mins)
-  - 
-  - Simple exercise (10 mins)
+  - Introduction to Traits: OOP with traits, trait types, and listening to 
+    changes. 
+  - Exercise (10 mins)
 4. Basic TraitsUI (35 mins) 
   - Introduction to TraitsUI views
   - The MVC paradigm

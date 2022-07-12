@@ -30,6 +30,8 @@ class _MplFigureEditor(Editor):
     def _do_layout(self):
         """Creates sub-widgets and does layout.
         """
+        if not self.value:
+            return
         canvas = FigureCanvasQTAgg(figure=self.value)
         # Allow the figure canvas to expand and shrink with the main widget.
         canvas.setSizePolicy(

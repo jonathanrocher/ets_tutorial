@@ -34,17 +34,18 @@ class ImageFileView(ModelView):
     def build_mpl_figure(self, event):
         figure = Figure()
         axes = figure.add_subplot(111)
-        axes.imshow(self.model.to_array())
+        axes.imshow(self.model.data)
         self.figure = figure
 
-    def _detect_button_fired(self):
+    @observe("detect_button")
+    def _detect_button_fired(self, event):
         self.model.detect_faces()
 
     @observe("model.faces")
     def update_mpl_figure_with_faces(self, events):
         figure = Figure()
         axes = figure.add_subplot(111)
-        axes.imshow(self.model.to_array())
+        axes.imshow(self.model.data)
 
         for face in self.model.faces:
             axes.add_patch(
