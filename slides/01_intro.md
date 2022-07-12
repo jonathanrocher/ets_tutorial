@@ -56,12 +56,14 @@ If you haven't already:
 <!-- #region slideshow={"slide_type": "slide"} -->
 ## Why ETS? When ETS?
 
+- Open-source
 - Mature
-- Easy to use
+- Easy to start, easy to grow
 - Tools promotes reusable code and good design patterns
 - Largely declarative UI
 - Backend-agnostic: avoid having to update when PyQt, wxPython, ... update!
 - Limitless around data tools, in particular plotting!
+- Reduced development costs (single programming language)
 - No architecture mind shift necessary (client-server) and no exposure to 
   server hacking.
 
@@ -92,7 +94,7 @@ Limitations:
 ## Layered package design
 
 <center>
-<img src="images/layers.png" height="90%" align="center"/>
+<img src="images/application_layers.png" height="90%" align="center"/>
 </center>
 
 <!-- #endregion -->
