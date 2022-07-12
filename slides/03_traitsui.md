@@ -481,6 +481,11 @@ image.data = astronaut()
           and instead show a helpful message? 
         - Hint: keyword arguments for `Item`
 <!-- #endregion -->
+<!-- #region slideshow={"slide_type": "slide"} -->
+## Solution
+- `stage3.1_first_views/traited_face_detect.py`
+- `stage3.1_first_views/image_folder_view.py`
+<!-- #endregion -->
 ## Toolkit selection
 
 - TraitsUI supports: Qt or wxPython
