@@ -24,4 +24,4 @@ jobs:
         python -m pip install flake8
     - name: Run flake8
       run: |
-        python -m flake8
+        python -m flake8 --exclude=stage6.0_branded_application/* .
