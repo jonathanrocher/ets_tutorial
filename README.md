@@ -1,3 +1,5 @@
+[![Flake8](https://github.com/jonathanrocher/ets_tutorial/actions/workflows/flake8.yml/badge.svg)](https://github.com/jonathanrocher/ets_tutorial/actions/workflows/flake8.yml)
+
 # Sharing your scientific tools: from a script to a desktop application
 This repository contains a GUI building and packaging tutorial using the 
 [Enthought Tool Suite](https://docs.enthought.com/ets/) accepted for the 
@@ -29,7 +31,7 @@ git clone git@github.com:jonathanrocher/ets_tutorial.git
 
 ### Requirements
 
-- Python 3.6+
+- Python 3.6
 - scikits.image
 - Pillow
 - Pandas
