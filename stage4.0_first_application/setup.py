@@ -1,4 +1,3 @@
-
 from setuptools import setup, find_packages
 
 
@@ -8,7 +7,5 @@ setup(
     description='Hello world in pyface task',
     ext_modules=[],
     packages=find_packages(),
-    data_files=[
-        (".", ["README.md"]),
-    ],
+    data_files=[],
 )
