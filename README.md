@@ -5,7 +5,7 @@ This repository contains a GUI building and packaging tutorial using the
 
 ## Tutorial summary
 
-In this workshop, we will learn to embed scientific tools into a robust 
+In this 4h workshop, we will learn to embed scientific tools into a robust 
 scientific application that can scale from a tiny UI to a large platform. As an 
 example, attendees will build an image browser application (including 
 face-detection capabilities), allowing users to search through their pictures, 
@@ -15,8 +15,9 @@ packages from the Enthought Tool Suite such as Traits, TraitsUI and Pyface. In
 the process, attendees will learn how to design clean, maintainable and 
 scalable applications, and discuss sharing your tool with your users.
 
-Ultimately, we will be building fairly sofisticated application that allows 
-users to explore images on their machines and detect faces in them:
+Ultimately, by the end of the workshop, we will have built a fairly 
+sophisticated application that allows users to explore images on their machines 
+and detect faces in them:
 
 ![full app screenshot](pycasa_final.png)
 
