@@ -7,7 +7,7 @@ This repository contains a GUI building and packaging tutorial using the
 
 ## Tutorial summary
 
-In this workshop, we will learn to embed scientific tools into a robust 
+In this 4h workshop, we will learn to embed scientific tools into a robust 
 scientific application that can scale from a tiny UI to a large platform. As an 
 example, attendees will build an image browser application (including 
 face-detection capabilities), allowing users to search through their pictures, 
@@ -17,8 +17,9 @@ packages from the Enthought Tool Suite such as Traits, TraitsUI and Pyface. In
 the process, attendees will learn how to design clean, maintainable and 
 scalable applications, and discuss sharing your tool with your users.
 
-Ultimately, we will be building fairly sofisticated application that allows 
-users to explore images on their machines and detect faces in them:
+Ultimately, by the end of the workshop, we will have built a fairly 
+sophisticated application that allows users to explore images on their machines 
+and detect faces in them:
 
 ![full app screenshot](pycasa_final.png)
 
@@ -41,7 +42,8 @@ git clone git@github.com:jonathanrocher/ets_tutorial.git
 
 ### EDM users (recommended)
 First, download and install EDM from https://www.enthought.com/edm/. Then, 
-open a `Terminal`/`Powershell`/`Cmd Prompt`/ and create a lighweight bootstrap environment to run the installation commands.
+open a `Terminal`/`Powershell`/`Cmd Prompt`/ and create a light-weight 
+bootstrap environment to run the installation commands.
 ```commandline
 edm envs create bootstrap
 edm install --environment bootstrap click
@@ -109,7 +111,8 @@ are able to reach the end goal.
     - add button to launch the face detection on all images
     - add widgets to filter images
   - step 6: pyface application: adding menu and branding 
-  - step 7: pyface application: advanced features [OPTIONAL]
+  - step 7: Advanced features
+    - Using traits_futures to move tasks to the background
   - step 8: Packaging and sharing
 
 
