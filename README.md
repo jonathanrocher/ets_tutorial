@@ -40,7 +40,8 @@ git clone git@github.com:jonathanrocher/ets_tutorial.git
 
 ### EDM users (recommended)
 First, download and install EDM from https://www.enthought.com/edm/. Then, 
-open a `Terminal`/`Powershell`/`Cmd Prompt`/ and create a lighweight bootstrap environment to run the installation commands.
+open a `Terminal`/`Powershell`/`Cmd Prompt`/ and create a light-weight 
+bootstrap environment to run the installation commands.
 ```commandline
 edm envs create bootstrap
 edm install --environment bootstrap click
@@ -108,7 +109,8 @@ are able to reach the end goal.
     - add button to launch the face detection on all images
     - add widgets to filter images
   - step 6: pyface application: adding menu and branding 
-  - step 7: pyface application: advanced features [OPTIONAL]
+  - step 7: Advanced features
+    - Using traits_futures to move tasks to the background
   - step 8: Packaging and sharing
 
 
