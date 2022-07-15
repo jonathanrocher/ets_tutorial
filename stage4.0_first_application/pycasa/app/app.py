@@ -4,7 +4,8 @@
 import logging
 
 from pyface.tasks.api import TasksApplication, TaskFactory
-from ..ui.tasks.hello_world_task import HelloWorldTask
+
+from pycasa.ui.tasks.hello_world_task import HelloWorldTask
 
 logger = logging.getLogger(__name__)
 
