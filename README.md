@@ -85,7 +85,7 @@ During the tutorial, don't hesitate to ask for help:
   in the room who can help unblock you.
 
 ### After the tutorial
-- This tutorial was recorded and can be watched [here](https://www.youtube.com/watch?v=2dd4BduDkG8&list=PLYx7XA2nY5Gfxu98P_HL1MnFb_BSkpxLV&index=3) [TODO]
+- This tutorial was recorded and can be watched [here](https://www.youtube.com/watch?v=2dd4BduDkG8&list=PLYx7XA2nY5Gfxu98P_HL1MnFb_BSkpxLV&index=3)
 - You can ask questions about any of the ETS packages on the ETS mailing list:
   https://groups.google.com/g/ets-users .
 - Each of the other packages has its own dedicated mailing list where questions 
